@@ -1,28 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <navigation></navigation>
+    <div id="main">
+      <div class="sidebar">
+        <user-card></user-card>
+        <user-contact></user-contact>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import navigation from "COMPS/business/navigation"
+import userCard from "COMPS/business/userCard"
+import userContact from "COMPS/business/userContact"
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    navigation,
+    userCard,
+    userContact
   }
-}
+};
 </script>
 
-<style>
+<style lang="less">
+@import "~COMMON/less/reset.less";
+@import "~COMMON/less/base.less";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  #main {
+    width: 1280px;
+    max-width: 100%;
+    margin: 16px auto;
+    display: flex;
+    // justify-content: center;
+  }
 }
 </style>
