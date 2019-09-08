@@ -2,18 +2,21 @@
   <div id="app">
     <navigation></navigation>
     <div id="main">
-      <div class="sidebar">
+      <div id="sidebar">
         <user-card></user-card>
         <user-contact></user-contact>
+      </div>
+      <div id="main-content">
+        <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import navigation from "COMPS/business/navigation"
-import userCard from "COMPS/business/userCard"
-import userContact from "COMPS/business/userContact"
+import navigation from "COMPS/business/navigation";
+import userCard from "COMPS/business/userCard";
+import userContact from "COMPS/business/userContact";
 
 export default {
   name: "app",
@@ -32,9 +35,12 @@ export default {
   #main {
     width: 1280px;
     max-width: 100%;
-    margin: 16px auto;
+    margin: 12px auto;
     display: flex;
-    // justify-content: center;
+    justify-content: center;
+  }
+  #main-content {
+    margin: 0 8px;
   }
 }
 </style>
