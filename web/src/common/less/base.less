@@ -8,3 +8,22 @@
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
   background: #fff;
 }
+
+// 闭合浮动
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+// 最多显示n行的文本
+.Mult-line(@line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
