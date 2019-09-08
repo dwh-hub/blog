@@ -39,7 +39,13 @@ export default {
     display: flex;
     justify-content: center;
   }
+  #sidebar {
+    position: sticky;
+    top: 12px;
+    height: 100%;
+  }
   #main-content {
+    width: 750px;
     margin: 0 8px;
   }
 }

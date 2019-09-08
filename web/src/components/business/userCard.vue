@@ -8,15 +8,15 @@
       </div>
     </div>
     <div class="user-card-sum">
-      <a href="#" class="user-card-sum-item">
+      <a class="user-card-sum-item">
         <p class="num">30</p>
         <p class="text">文章</p>
       </a>
-      <a href="#" class="user-card-sum-item">
+      <a class="user-card-sum-item">
         <p class="num">21</p>
         <p class="text">说说</p>
       </a>
-      <a href="#" class="user-card-sum-item">
+      <a class="user-card-sum-item">
         <p class="num">1535</p>
         <p class="text">评论</p>
       </a>

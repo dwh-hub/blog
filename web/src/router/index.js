@@ -4,6 +4,10 @@ import ArticleList from "COMPS/business/articleList"
 
 Vue.use(Router)
 
+const articleContent = Vue.component('articleContent',
+  () => import('PAGES/articleContent.vue')
+)
+
 export default new Router({
   routes: [
     {
@@ -13,6 +17,10 @@ export default new Router({
     {
       path: '/articleList',
       component: ArticleList
+    },
+    {
+      path: '/article/:id',
+      component: articleContent
     }
   ]
 })

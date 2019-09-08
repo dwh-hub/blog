@@ -1,4 +1,4 @@
-var path = require("path")
+const path = require("path")
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -14,6 +14,7 @@ module.exports = {
         'ASSETS': path.resolve(__dirname, './src/assets'),
         'COMPS': path.resolve(__dirname, './src/components'),
         'COMMON': path.resolve(__dirname, './src/common'),
+        'PAGES': path.resolve(__dirname, './src/pages'),
       }
     }
   },
@@ -21,7 +22,15 @@ module.exports = {
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
-      patterns: [path.resolve(__dirname, './src/commom/less/base.less')]
+      patterns: [path.resolve(__dirname, './src/commom/less/*.less')]
     }
   }
 }
+
+// pluginOptions: {
+//   'style-resources-loader': {
+//     'patterns': [
+//       path.resolve(__dirname, 'src/styles/abstracts/*.styl'),
+//     ]
+//   }
+// }

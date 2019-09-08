@@ -16,8 +16,8 @@ export default {
 
 <style lang="less">
   .article-list {
-    width: 750px;
     &.blog-item {
+      box-sizing: border-box;
       padding: 12px 30px;
     }
   }
