@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Menu from 'VIEWS/menu'
 import AddTag from 'VIEWS/addTag'
+import AddList from 'VIEWS/addList'
 
 Vue.use(Router)
 
@@ -16,6 +17,10 @@ export default new Router({
         {
           path: '/tag/add',
           component: AddTag,
+        },
+        {
+          path: '/tag/list',
+          component: AddList,
         }
       ]
     }
