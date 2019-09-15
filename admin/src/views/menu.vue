@@ -7,7 +7,7 @@
             <i class="el-icon-message"></i>标签
           </template>
           <el-menu-item index="/tag/add">添加标签</el-menu-item>
-          <el-menu-item index="1-2">标签列表</el-menu-item>
+          <el-menu-item index="/tag/list">标签列表</el-menu-item>
           <el-submenu index="1-4">
             <template slot="title">选项4</template>
             <el-menu-item index="1-4-1">选项4-1</el-menu-item>

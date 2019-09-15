@@ -20,9 +20,16 @@ export default {
       tag: ""
     };
   },
+  mounted() {},
   methods: {
     async submitTag() {
-      // const res = this.$axios.post('',{})
+      const res = await this.$axios.post("/admin/api/tag", {
+        name: this.tag
+      });
+      this.$message({
+        message: "添加成功",
+        type: "success"
+      });
     },
     reset() {
       this.tag = "";
