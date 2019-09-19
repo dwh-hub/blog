@@ -23,13 +23,17 @@ export default {
   mounted() {},
   methods: {
     async submitTag() {
-      const res = await this.$axios.post("/admin/api/tag", {
-        name: this.tag
-      });
-      this.$message({
-        message: "添加成功",
-        type: "success"
-      });
+      try {
+        const res = await this.$axios.post("/admin/api/tag/add", {
+          name: this.tag
+        });
+        this.$message({
+          message: res.message,
+          type: "success"
+        });
+      } catch (err) {
+        return;
+      }
     },
     reset() {
       this.tag = "";
