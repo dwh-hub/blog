@@ -2,12 +2,15 @@
   <div id="app">
     <navigation></navigation>
     <div id="main">
-      <div id="sidebar">
+      <div id="sidebar-left">
         <user-card></user-card>
         <user-contact></user-contact>
       </div>
       <div id="main-content">
         <router-view></router-view>
+      </div>
+      <div id="sidebar-right">
+        <tag></tag>
       </div>
     </div>
   </div>
@@ -17,13 +20,15 @@
 import navigation from "COMPS/business/navigation";
 import userCard from "COMPS/business/userCard";
 import userContact from "COMPS/business/userContact";
+import tag from "COMPS/business/tag";
 
 export default {
   name: "app",
   components: {
     navigation,
     userCard,
-    userContact
+    userContact,
+    tag
   }
 };
 </script>
@@ -39,7 +44,7 @@ export default {
     display: flex;
     justify-content: center;
   }
-  #sidebar {
+  #sidebar-left {
     position: sticky;
     top: 12px;
     height: 100%;
@@ -47,6 +52,9 @@ export default {
   #main-content {
     width: 750px;
     margin: 0 8px;
+  }
+  #sidebar-right {
+    flex: 1;
   }
 }
 </style>
