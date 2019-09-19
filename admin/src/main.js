@@ -12,9 +12,12 @@ window.api = 'http://localhost:3000'
 axios.defaults.baseURL = window.api
 
 axios.interceptors.response.use(res => {
+  if(res.data.code != 200) {
+    Vue.prototype.$message.error(res.data.message);
+    return Promise.reject();
+  }
   return res.data
 },error => {
-  console.log(error)
   Vue.prototype.$message.error(error.message);
   return Promise.reject();
 })

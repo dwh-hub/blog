@@ -1,7 +1,7 @@
 <template>
   <div class="add-tag">
     <h1>新建标签</h1>
-    <el-form>
+    <el-form label-width="120px">
       <el-form-item label="标签名">
         <el-input type="text" v-model="tag"></el-input>
       </el-form-item>
@@ -23,13 +23,17 @@ export default {
   mounted() {},
   methods: {
     async submitTag() {
-      const res = await this.$axios.post("/admin/api/tag", {
-        name: this.tag
-      });
-      this.$message({
-        message: "添加成功",
-        type: "success"
-      });
+      try {
+        const res = await this.$axios.post("/admin/api/reset/tag/add", {
+          name: this.tag
+        });
+        this.$message({
+          message: res.message,
+          type: "success"
+        });
+      } catch (err) {
+        return;
+      }
     },
     reset() {
       this.tag = "";
