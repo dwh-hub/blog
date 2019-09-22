@@ -4,23 +4,14 @@ import ArticleList from "COMPS/business/articleList"
 
 Vue.use(Router)
 
-const articleContent = Vue.component('articleContent',
-  () => import('PAGES/articleContent.vue')
+const articlePage = Vue.component('articlePage',
+  () => import('PAGES/articlePage.vue')
 )
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      redirect: '/articleList'
-    },
-    {
-      path: '/articleList',
-      component: ArticleList
-    },
-    {
-      path: '/article/:id',
-      component: articleContent
-    }
+    { path: '/', redirect: '/articleList' },
+    { path: '/articleList', component: ArticleList },
+    { path: '/article/:id', component: articlePage, props: true }
   ]
 })

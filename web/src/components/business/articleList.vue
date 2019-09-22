@@ -1,24 +1,54 @@
 <template>
   <div class="article-list blog-item">
-    <article-item v-for="(item, index) in 5" :key="index"></article-item>
+    <article-item v-for="(item, index) in articleList" :key="index" :article="item"></article-item>
   </div>
 </template>
 
 <script>
-import articleItem from 'COMPS/base/articleItem'
+import articleItem from "COMPS/base/articleItem";
+import marked from "marked";
 export default {
-  name: 'articleList',
+  name: "articleList",
+  data() {
+    return {
+      articleList: []
+    };
+  },
   components: {
     articleItem
+  },
+  created() {
+    this.getArticleList();
+  },
+  methods: {
+    async getArticleList() {
+      const res = await this.$axios.get("/admin/api/reset/article");
+      this.articleList = res.data.map(e => {
+        e.tag = String(e.tag.map(t => `#${t.name}#`));
+        return {
+          id: e._id,
+          title: e.title,
+          content: this.delHtmlTag(marked(e.content || "")),
+          author: "大花园",
+          cover: "",
+          tag: e.tag,
+          date: "2019-09-08"
+        };
+      });
+    },
+    // 去除html标签
+    delHtmlTag(str) {
+      return str.replace(/<[^>]+>/g, "");
+    }
   }
-}
+};
 </script>
 
 <style lang="less">
-  .article-list {
-    &.blog-item {
-      box-sizing: border-box;
-      padding: 12px 30px;
-    }
+.article-list {
+  &.blog-item {
+    box-sizing: border-box;
+    padding: 12px 30px;
   }
+}
 </style>
