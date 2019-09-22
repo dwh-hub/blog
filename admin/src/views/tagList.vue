@@ -1,28 +1,28 @@
 <template>
-  <el-table
-    :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-    style="width: 100%"
-  >
-    <el-table-column label="id" prop="_id"></el-table-column>
-    <el-table-column label="Name" prop="name"></el-table-column>
-    <el-table-column align="right">
-      <template slot="header" slot-scope="scope">
-        <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
-      </template>
-      <template slot-scope="scope">
-        <el-button size="mini" type="primary" @click="editTag(scope.$index, scope.row)">编辑</el-button>
-        <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div class="add-list">
+    <h1>标签列表</h1>
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+    >
+      <el-table-column label="id" prop="_id"></el-table-column>
+      <el-table-column label="上级标签" prop="parent.name"></el-table-column>
+      <el-table-column label="标签名" prop="name"></el-table-column>
+      <el-table-column align="right">
+        <template slot-scope="scope">
+          <el-button size="mini" type="primary" @click="$router.push(`/tag/edit/${scope.row._id}`);">编辑</el-button>
+          <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      tableData: [],
-      search: ""
+      tableData: []
     };
   },
   mounted() {
@@ -60,7 +60,7 @@ export default {
         });
     },
     deleteTag(index, row) {
-      this.$confirm("是否删除该标签?", "提示", {
+      this.$confirm(`是否删除标签 "${row.name}"?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

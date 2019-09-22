@@ -1,12 +1,22 @@
 <template>
   <div class="add-tag">
-    <h1>新建标签</h1>
+    <h1>{{id ? '编辑' : '新增'}}标签</h1>
     <el-form label-width="120px">
+      <el-form-item label="上级标签">
+        <el-select v-model="parentTag" placeholder="请选择">
+          <el-option
+            v-for="item in parentOptions"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="标签名">
         <el-input type="text" v-model="tag"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitTag()">提交</el-button>
+        <el-button type="primary" @click="saveTag()">保存</el-button>
         <el-button @click="reset()">重置</el-button>
       </el-form-item>
     </el-form>
@@ -15,28 +25,53 @@
 
 <script>
 export default {
+  props: {
+    id: {}
+  },
   data() {
     return {
+      parentOptions: [],
+      parentTag: "",
       tag: ""
     };
   },
-  mounted() {},
+  created() {
+    this.id && this.fetch();
+    this.getTagList();
+  },
   methods: {
-    async submitTag() {
-      try {
-        const res = await this.$axios.post("/admin/api/reset/tag/add", {
+    async fetch() {
+      const res = await this.$axios.get(`/admin/api/reset/tag/${this.id}`);
+      this.parentTag = res.data.parent;
+      this.tag = res.data.name;
+    },
+    async getTagList() {
+      const res = await this.$axios.get("/admin/api/reset/tag");
+      this.parentOptions = res.data;
+    },
+    async saveTag() {
+      let res;
+      if (this.id) {
+        res = await this.$axios.post("/admin/api/reset/tag/edit", {
+          _id: this.id,
+          parent: this.parentTag,
           name: this.tag
         });
-        this.$message({
-          message: res.message,
-          type: "success"
+      } else {
+        res = await this.$axios.post("/admin/api/reset/tag/add", {
+          parent: this.parentTag,
+          name: this.tag
         });
-      } catch (err) {
-        return;
       }
+      this.$message({
+        message: res.message,
+        type: "success"
+      });
+      this.$router.push({ path: "/tag/list" });
     },
     reset() {
       this.tag = "";
+      parentTag = "";
     }
   }
 };
