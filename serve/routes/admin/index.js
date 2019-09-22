@@ -21,9 +21,6 @@ module.exports = app => {
   })
   // 增
   router.post('/add', async (req, res) => {
-    if (!req.body.name) {
-      return res.send(fail(500, '缺失参数name'))
-    }
     const model = await req.Model.create(req.body)
     res.send(success(model, '添加成功'))
   })
@@ -40,18 +37,15 @@ module.exports = app => {
     if (!req.body._id) {
       return res.send(fail(500, '缺失参数_id'))
     }
-    if (!req.body.name) {
-      return res.send(fail(500, '缺失参数name'))
-    }
-    await req.Model.update({_id: req.body._id},{name: req.body.name})
+    await req.Model.findByIdAndUpdate(req.body._id, req.body)
     res.send(success(null, '修改成功'))
   })
   // 查
   router.get('/:id', async (req, res) => {
-    if (!req.body._id) {
+    if (!req.params.id) {
       return res.send(fail(500, '缺失参数_id'))
     }
-    const item = await req.Model.findById({_id: req.body._id})
+    const item = await req.Model.findById({_id: req.params.id})
     res.send(success(item))
   })
   // 列表
@@ -59,6 +53,10 @@ module.exports = app => {
     const queryOptions = {}
     if (req.Model.modelName === 'Tag') {
       queryOptions.populate = 'parent'
+    }
+    if (req.Model.modelName === 'Article') {
+      const Tag = require(`../../models/Tag`)
+      queryOptions.populate = 'tag'
     }
     const items = await req.Model.find().setOptions(queryOptions).limit(10)
     res.send(success(items))
@@ -68,4 +66,13 @@ module.exports = app => {
     req.Model = require(`../../models/${ModelName}`)
     next()
   }, router)
+
+  const multer = require('multer')
+  const upload = multer({ dest: __dirname + '/../../uploads' })
+  
+  app.post('/admin/api/upload', upload.single('file'), async(req, res) => {
+    const file = req.file
+    file.url = `http://localhost:3000/uploads/${file.filename}`
+    res.send(success(file.url))
+  })
 }
