@@ -1,7 +1,7 @@
 <template>
   <el-container style="height: 100vh;">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu router :default-openeds="['1']" style="height: 100vh;" :default-active="$route.path">
+      <el-menu router style="height: 100vh;" :default-active="$route.path">
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-message"></i>内容管理
@@ -15,6 +15,16 @@
             <span slot="title">文章</span>
             <el-menu-item index="/article/add">编辑文章</el-menu-item>
             <el-menu-item index="/article/list">文章列表</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-message"></i>系统设置
+          </template>
+          <el-menu-item-group>
+            <span slot="title">管理员</span>
+            <el-menu-item index="/user/add">编辑管理员</el-menu-item>
+            <el-menu-item index="/user/list">管理员列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
