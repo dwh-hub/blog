@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     async getArticleList() {
-      const res = await this.$axios.get("/admin/api/reset/article");
+      const res = await this.$axios.get("/web/api/article/list");
       this.articleList = res.data.map(e => {
         e.tag = String(e.tag.map(t => `#${t.name}#`));
         return {

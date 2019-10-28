@@ -52,7 +52,7 @@ export default {
   backface-visibility: hidden;
   &:hover {
     -webkit-font-smoothing: subpixel-antialiased;
-    transform: translateZ(0) scale(1.01);
+    transform: perspective(1px) scale(1.01);
     .article-title {
       color: #00a1d6;
     }

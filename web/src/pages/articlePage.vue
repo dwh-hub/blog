@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     async getArticle() {
-      const res = await this.$axios.get(`/admin/api/reset/article/${this.id}`);
+      const res = await this.$axios.get(`/web/api/article/${this.id}`);
       res.data.content = marked(res.data.content || '')
       this.article = res.data
     },

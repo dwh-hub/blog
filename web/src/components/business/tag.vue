@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     async getTagList() {
-      const res = await this.$axios.get("/admin/api/reset/tag");
+      const res = await this.$axios.get("/web/api/tag/list");
       this.tagList = res.data;
     }
   }
@@ -42,10 +42,10 @@ export default {
     padding: 0 10px;
     border-radius: 4px;
     background-color: #f4f5f6;
-    transition: transform 0.3s;
-    &:hover {
-      transform: scale(1.1);
-    }
+    // transition: transform 0.3s;
+    // &:hover {
+    //   transform: scale(1.1);
+    // }
   }
 }
 </style>

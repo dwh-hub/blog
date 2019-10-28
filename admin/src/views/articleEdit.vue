@@ -106,7 +106,8 @@ export default {
           _id: this.id,
           title: this.title,
           tag: this.tags,
-          content: this.content
+          content: this.content,
+          editorType: this.editorType
         });
       } else {
         res = await this.$axios.post("/admin/api/reset/article/add", {
