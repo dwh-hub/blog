@@ -1,6 +1,7 @@
 <template>
   <div class="article-list blog-item">
     <article-item v-for="(item, index) in articleList" :key="index" :article="item"></article-item>
+    <div class="list-none" v-if="!isLoading && !articleList.length">暂无文章</div>
   </div>
 </template>
 
@@ -11,7 +12,8 @@ export default {
   name: "articleList",
   data() {
     return {
-      articleList: []
+      articleList: [],
+      isLoading: false
     };
   },
   components: {
@@ -22,6 +24,7 @@ export default {
   },
   methods: {
     async getArticleList() {
+      this.isLoading = true
       const res = await this.$axios.get("/web/api/article/list");
       this.articleList = res.data.map(e => {
         e.tag = String(e.tag.map(t => `#${t.name}#`));
@@ -35,6 +38,7 @@ export default {
           date: "2019-09-08"
         };
       });
+      this.isLoading = false
     },
     // 去除html标签
     delHtmlTag(str) {
@@ -49,6 +53,11 @@ export default {
   &.blog-item {
     box-sizing: border-box;
     padding: 12px 30px;
+  }
+  .list-none {
+    text-align: center;
+    line-height: 30px;
+    color: #999;
   }
 }
 </style>
