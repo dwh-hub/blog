@@ -1,6 +1,6 @@
 <template>
   <div class="article blog-item">
-    <h1 class="tiile">{{article.title}}</h1>
+    <h1 class="title">{{article.title}}</h1>
     <div class="article-content" v-html="article.content"></div>
   </div>
 </template>
@@ -31,5 +31,10 @@ export default {
 </script>
 
 <style lang="less">
-
+  .article {
+    .title {
+      text-align: center;
+      line-height: 80px;
+    }
+  }
 </style>

@@ -48,23 +48,22 @@ export default {
   cursor: pointer;
   padding: 36px 0;
   border-bottom: 1px solid #e5e9ef;
-  transition: transform 0.3s;
+  // transition: transform 0.3s;
   backface-visibility: hidden;
   &:hover {
-    -webkit-font-smoothing: subpixel-antialiased;
-    transform: perspective(1px) scale(1.01);
+    // -webkit-font-smoothing: subpixel-antialiased;
+    // transform: perspective(1px) scale(1.01);
     .article-title {
+      font-size: 30px;
       color: #00a1d6;
     }
   }
   .article-title {
     font-size: 28px;
+    line-height: 38px;
     font-weight: bold;
     color: #4a4a4a;
-    transition: color 0.3s;
-    // &:hover {
-    //   color: #00a1d6;
-    // }
+    transition: all 0.3s;
   }
   .article-content {
     .Mult-line(4);

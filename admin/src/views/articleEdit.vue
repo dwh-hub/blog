@@ -87,7 +87,8 @@ export default {
       const res = await this.$axios.get(`/admin/api/reset/article/${this.id}`);
       this.title = res.data.title;
       this.tags = res.data.tag;
-      this.content = res.data.content;
+      res.data.editorType == 1 ? this.content = res.data.content : this.contentHtml = res.data.content;
+      this.editorType = res.data.editorType
     },
     async getTagList() {
       const res = await this.$axios.get("/admin/api/reset/tag");
@@ -106,14 +107,14 @@ export default {
           _id: this.id,
           title: this.title,
           tag: this.tags,
-          content: this.content,
+          content: this.editorType == 1 ? this.content : this.contentHtml,
           editorType: this.editorType
         });
       } else {
         res = await this.$axios.post("/admin/api/reset/article/add", {
           title: this.title,
           tag: this.tags,
-          content: this.content
+          content: this.editorType == 1 ? this.content : this.contentHtml
         });
       }
       this.$message({

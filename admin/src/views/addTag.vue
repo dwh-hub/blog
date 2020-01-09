@@ -47,7 +47,7 @@ export default {
     },
     async getTagList() {
       const res = await this.$axios.get("/admin/api/reset/tag");
-      this.parentOptions = res.data;
+      this.parentOptions = [{name: '无', _id: undefined}].concat(res.data);
     },
     async saveTag() {
       let res;
@@ -59,7 +59,7 @@ export default {
         });
       } else {
         res = await this.$axios.post("/admin/api/reset/tag/add", {
-          parent: this.parentTag,
+          parent: this.parentTag || undefined,
           name: this.tag
         });
       }

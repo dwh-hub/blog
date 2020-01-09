@@ -8,6 +8,7 @@
 <script>
 import articleItem from "COMPS/base/articleItem";
 import marked from "marked";
+import { formatDate } from "COMMON/js/tools"
 export default {
   name: "articleList",
   data() {
@@ -35,7 +36,7 @@ export default {
           author: "大花园",
           cover: "",
           tag: e.tag,
-          date: "2019-09-08"
+          date: formatDate(new Date(e.addTime), 'yyyy/MM/dd hh:mm')
         };
       });
       this.isLoading = false
