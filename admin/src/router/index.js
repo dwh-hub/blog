@@ -9,10 +9,11 @@ import ArticleList from 'VIEWS/articleList'
 import ArticleEdit from 'VIEWS/articleEdit'
 import UserleList from 'VIEWS/userList'
 import UserEdit from 'VIEWS/userEdit'
+import blogInfo from 'VIEWS/blogInfo'
 
 Vue.use(Router)
 
-const router =  new Router({
+const router = new Router({
   routes: [
     {
       path: '/login',
@@ -35,7 +36,8 @@ const router =  new Router({
         { path: '/article/edit/:id', component: ArticleEdit, props: true },
         { path: '/user/list', component: UserleList },
         { path: '/user/add', component: UserEdit },
-        { path: '/user/edit/:id', component: UserEdit, props: true }
+        { path: '/user/edit/:id', component: UserEdit, props: true },
+        { path: '/blog/info', component: blogInfo, props: true }
       ]
     }
   ]

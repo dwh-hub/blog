@@ -27,6 +27,15 @@
             <el-menu-item index="/user/list">管理员列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-message"></i>博客信息设置
+          </template>
+          <el-menu-item index="/blog/info">编辑博客信息</el-menu-item>
+          <!-- <el-menu-item-group>
+            <span slot="title">博客信息</span>
+          </el-menu-item-group> -->
+        </el-submenu>
       </el-menu>
     </el-aside>
 
