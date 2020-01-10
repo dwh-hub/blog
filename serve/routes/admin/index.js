@@ -30,7 +30,7 @@ module.exports = app => {
   // 删
   router.post('/delete', async (req, res) => {
     assert(req.body._id, 403, '缺失参数_id')
-    await req.Model.remove({_id: req.body._id})
+    await req.Model.remove({ _id: req.body._id })
     res.send(success(null, '删除成功'))
   })
   // 改
@@ -42,7 +42,7 @@ module.exports = app => {
   // 查
   router.get('/:id', async (req, res) => {
     assert(req.params.id, 403, '缺失参数_id')
-    const item = await req.Model.findById({_id: req.params.id})
+    const item = await req.Model.findById({ _id: req.params.id })
     res.send(success(item))
   })
   // 列表
@@ -60,27 +60,57 @@ module.exports = app => {
   })
 
   // 校验登录中间件
-  const authMiddleware =  require('../../middleware/auth')
+  const authMiddleware = require('../../middleware/auth')
 
-  app.use('/admin/api/reset/:resoure', authMiddleware(), async(req, res, next) => {
+  app.use('/admin/api/reset/:resoure', authMiddleware(), async (req, res, next) => {
     // 自动require模型中间件
     const ModelName = require('inflection').classify(req.params.resoure)
     req.Model = require(`../../models/${ModelName}`)
     next()
   }, router)
 
+  // 修改博客信息
+  const BlogInfo = require('../../models/BlogInfo')
+  app.post('/admin/api/blogInfo/update', authMiddleware(), async (req, res) => {
+    assert(req.body.name, 403, '缺失参数: name')
+    assert(req.body.profile, 403, '缺失参数: profile')
+    assert(req.body.avatar, 403, '缺失参数: avatar')
+    assert(req.body.bgUrl, 403, '缺失参数: bgUrl')
+    const info = await BlogInfo.find()
+    if (!info.length) {
+      await BlogInfo.create(req.body)
+    } else {
+      await BlogInfo.findByIdAndUpdate(info[0]._id, req.body)
+    }
+    res.send(success(null, '修改成功'))
+  })
+
+  app.post('/admin/api/blogInfo', authMiddleware(), async (req, res) => {
+    const info = await BlogInfo.find()
+    res.send(success(info[0]))
+  })
+
+
   const multer = require('multer')
-  const upload = multer({ dest: __dirname + '/../../uploads' })
-  
+  let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, __dirname + '/../../uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, `${file.fieldname}-${Date.now()}.${file.mimetype.split('/')[1]}`)
+    }
+  })
+  const upload = multer({ storage: storage })
+
   // 上传资源
-  app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async(req, res) => {
+  app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
     const file = req.file
     file.url = `http://localhost:3000/uploads/${file.filename}`
     res.send(success(file.url))
   })
 
   // 登录
-  app.post('/admin/api/login', async(req, res) => {
+  app.post('/admin/api/login', async (req, res) => {
     const { username, password } = req.body
     assert(username, 403, '缺失参数username')
     assert(password, 403, '缺失参数password')
@@ -96,7 +126,7 @@ module.exports = app => {
   })
 
   // 错误处理
-  app.use(async(err, req, res, next) => {
+  app.use(async (err, req, res, next) => {
     res.status(200).send(fail(err.statusCode, err.message))
   })
 }

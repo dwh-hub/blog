@@ -36,6 +36,26 @@ module.exports = app => {
     res.send(success(list))
   })
 
+  // 获取博客文章/评论数量
+  router.get('/user/count', async (req, res) => {
+    const articleCount = await Article.count()
+    const shuoshuoCount = 0
+    const evalutaionCount = 0
+    let userCount = {
+      articleCount,
+      shuoshuoCount,
+      evalutaionCount,
+    }
+    res.send(success(userCount)) 
+  })
+
+  // 博客信息
+  const BlogInfo = require('../../models/BlogInfo')
+  router.post('/blogInfo', async (req, res) => {
+    const info = await BlogInfo.find()
+    res.send(success(info[0]))
+  })
+
   app.use('/web/api', router)
 
   // 错误处理
