@@ -32,6 +32,7 @@ export default {
 
 <style lang="less">
   .article {
+    padding: 10px 20px 20px 20px;
     .title {
       text-align: center;
       line-height: 80px;

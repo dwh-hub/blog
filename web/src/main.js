@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
 import axios from 'axios'
+import store from './store/store'
 
 Vue.config.productionTip = false
 
@@ -15,7 +16,7 @@ axios.interceptors.response.use(res => {
     return Promise.reject();
   }
   return res.data
-},error => {
+}, error => {
   // Vue.prototype.$message.error(error.message);
   return Promise.reject();
 })
@@ -25,4 +26,5 @@ Vue.prototype.$axios = axios;
 new Vue({
   render: h => h(App),
   router,
+  store,
 }).$mount('#app')

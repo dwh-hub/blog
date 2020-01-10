@@ -46,7 +46,7 @@ export default {
 @import "~COMMON/less/base.less";
 .article-item {
   cursor: pointer;
-  padding: 36px 0;
+  padding: 20px 0;
   border-bottom: 1px solid #e5e9ef;
   // transition: transform 0.3s;
   backface-visibility: hidden;
@@ -54,7 +54,7 @@ export default {
     // -webkit-font-smoothing: subpixel-antialiased;
     // transform: perspective(1px) scale(1.01);
     .article-title {
-      font-size: 30px;
+      // font-size: 30px;
       color: #00a1d6;
     }
   }
