@@ -7,7 +7,6 @@
 
 <script>
 import articleItem from "COMPS/base/articleItem";
-import marked from "marked";
 import { formatDate } from "COMMON/js/tools"
 export default {
   name: "articleList",
@@ -20,19 +19,21 @@ export default {
   components: {
     articleItem
   },
-  created() {
+  mounted() {
     this.getArticleList();
   },
   methods: {
     async getArticleList() {
       this.isLoading = true
-      const res = await this.$axios.get("/web/api/article/list");
+      let tagId = this.$route.params.id
+      let url = tagId ? `/web/api/article/list/${tagId}` : '/web/api/article/list'
+      const res = await this.$axios.get(url);
       this.articleList = res.data.map(e => {
         e.tag = String(e.tag.map(t => `#${t.name}#`));
         return {
           id: e._id,
           title: e.title,
-          content: this.delHtmlTag(marked(e.content || "")),
+          content: this.delHtmlTag(e.HTMLContent || ""),
           author: "大花园",
           cover: "",
           tag: e.tag,

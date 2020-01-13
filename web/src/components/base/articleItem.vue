@@ -3,8 +3,8 @@
     <h2 class="article-title">{{article.title}}</h2>
     <p class="article-content">{{article.content}}</p>
     <div class="article-about">
-      <img class="author-cover" src="~/ASSETS/images/user-cover.jpg" alt />
-      <span class="author-name">{{article.author}}</span>
+      <!-- <img class="author-cover" src="~/ASSETS/images/user-cover.jpg" alt />
+      <span class="author-name">{{article.author}}</span> -->
       <span class="article-tag">
         标签 :
         <a href="#">{{article.tag}}</a>

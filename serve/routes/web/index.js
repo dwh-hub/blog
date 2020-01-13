@@ -17,6 +17,7 @@ function fail(code, message) {
 module.exports = app => {
   const express = require('express');
   const router = express.Router()
+  const assert = require('http-assert')
   const Article = require('../../models/Article')
   const Tag = require('../../models/Tag')
 
@@ -26,8 +27,14 @@ module.exports = app => {
     res.send(success(list))
   })
 
+  router.get('/article/list/:id', async (req, res) => {
+    // const list = await Article.find({"tag":{"$elemMatch":{"name": req.params.name}}}).populate('tag')
+    const list = await Article.find({'tag': req.params.id}).populate('tag')
+    res.send(success(list))
+  })
+
   router.get('/article/:id', async (req, res) => {
-    const article = await Article.findById({_id: req.params.id})
+    const article = await Article.findById({_id: req.params.id}).populate('tag')
     res.send(success(article))
   })
 
@@ -47,6 +54,21 @@ module.exports = app => {
       evalutaionCount,
     }
     res.send(success(userCount)) 
+  })
+
+  // 评论文章
+  const Evaluation = require('../../models/Evaluation')
+  router.post('/evaluate', async (req, res) => {
+    assert(req.body.articleId, 403, '缺失参数_articleId')
+    assert(req.body.nickname, 403, '请填写昵称')
+    assert(req.body.email, 403, '请填写邮箱')
+    const model = await Evaluation.create(req.body)
+    res.send(success(model, '评论成功'))
+  })
+  // 评论列表
+  router.get('/evaluate/list', async (req, res) => {
+    const list = await Evaluation.find().limit(10)
+    res.send(success(list))
   })
 
   // 博客信息

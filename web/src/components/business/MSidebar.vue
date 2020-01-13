@@ -6,7 +6,7 @@
       </div>
       <div class="name">{{blogInfo.name}}</div>
       <div class="mobile-menu">
-        <div class="menu-item">
+        <div class="menu-item" @click="toRouter('/')">
           <i class="home"></i>
           <span>首页</span>
         </div>
@@ -48,6 +48,10 @@ export default {
         this.blogInfo = info.data;
         this.$store.commit("saveUserInfo", this.blogInfo);
       }
+    },
+    toRouter(url) {
+      this.$router.push(url)
+      this.showSidebar = false
     }
   }
 };

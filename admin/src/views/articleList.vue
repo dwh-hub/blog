@@ -8,7 +8,7 @@
       <el-table-column label="id" prop="_id"></el-table-column>
       <el-table-column label="标题" prop="title"></el-table-column>
       <el-table-column label="标签" prop="tags"></el-table-column>
-      <el-table-column align="right">
+      <el-table-column align="right" width="240">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -16,6 +16,7 @@
             @click="$router.push(`/article/edit/${scope.row._id}`);"
           >编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" type="primary" @click="toEvaluation(scope.$index, scope.row)">查看评价</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,6 +61,9 @@ export default {
             });
         })
         .catch();
+    },
+    toEvaluation(index, row) {
+      this.$router.push(`/evaluation/${row._id}`)
     }
   }
 };

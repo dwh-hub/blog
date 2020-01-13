@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import EventBus from '../../utils/eventBus'
+import EventBus from "../../utils/eventBus";
 
 export default {
   methods: {
@@ -32,7 +32,7 @@ export default {
       this.$router.push({ path: `/` });
     },
     toggleMenu() {
-      EventBus.$emit('toggleMenu')
+      EventBus.$emit("toggleMenu");
     }
   }
 };
@@ -66,7 +66,9 @@ export default {
     }
   }
   .nav-mobile {
-    display: flex;
+    display: none;
+    position: sticky;
+    top: 0;
     .header-icon-wrapper {
       display: flex;
       justify-content: center;
@@ -76,11 +78,11 @@ export default {
     }
     .header-menu {
       float: left;
-      >i {
+      > i {
         display: inline-block;
         width: 25px;
         height: 27px;
-        background-image: url('~ASSETS/images/menu.png');
+        background-image: url("~ASSETS/images/menu.png");
         background-size: cover;
       }
     }
@@ -98,11 +100,18 @@ export default {
 }
 
 @media screen and (max-width: 900px) {
-  .nav-lg {
-    display: none;
-  }
-  .nav-mobile {
-    display: block;
+  #navigation {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    .nav-lg {
+      display: none;
+    }
+    .nav-mobile {
+      display: block;
+      display: flex;
+    }
   }
 }
 </style>

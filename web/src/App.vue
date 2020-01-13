@@ -34,14 +34,16 @@ export default {
     userContact,
     tag,
     MSidebar
-  }
+  },
 };
 </script>
 
 <style lang="less">
 @import "~COMMON/less/reset.less";
+@import "~COMMON/less/font.less";
 @import "~COMMON/less/base.less";
 #app {
+  overflow: hidden;
   #main {
     width: 1280px;
     max-width: 100%;
@@ -54,6 +56,7 @@ export default {
     float: left;
     width: 20%;
     height: 100%;
+    padding-left: 5px;
     box-sizing: border-box;
   }
   #main-content {
@@ -66,6 +69,7 @@ export default {
     width: 20%;
     box-sizing: border-box;
     float: right;
+    padding-right: 5px;
   }
   @media screen and (max-width: 900px) {
     #main-content {

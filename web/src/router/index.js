@@ -11,7 +11,7 @@ const articlePage = Vue.component('articlePage',
 export default new Router({
   routes: [
     // { path: '/', redirect: '/articleList' },
-    { path: '/', component: ArticleList },
+    { path: '/:id?', component: ArticleList },
     { path: '/article/:id', component: articlePage, props: true }
   ]
 })

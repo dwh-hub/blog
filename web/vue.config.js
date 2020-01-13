@@ -18,7 +18,9 @@ module.exports = {
       }
     }
   },
-
+  devServer: {
+    host: '0.0.0.0'
+  },
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',

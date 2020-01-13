@@ -4,7 +4,7 @@
       <i class="icon"></i>
       <span>标签</span>
     </div>
-    <div class="tag-item" v-for="(item, index) in tagList" :key="index">{{item.name}}</div>
+    <div class="tag-item" v-for="(item, index) in tagList" :key="index" @click="toTagList(item._id)">{{item.name}}</div>
   </div>
 </template>
 
@@ -22,6 +22,10 @@ export default {
     async getTagList() {
       const res = await this.$axios.get("/web/api/tag/list");
       this.tagList = res.data;
+    },
+    toTagList(id) {
+      this.$router.push(`/${id}`)
+      window.location.reload()
     }
   }
 };

@@ -7,6 +7,8 @@ import axios from "./config/axios";
 
 Vue.use(ElementUI);
 
+window.api = 'http://localhost:3000'
+
 Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false

@@ -3,13 +3,6 @@ import Router from 'vue-router'
 
 import Login from 'VIEWS/login'
 import Menu from 'VIEWS/menu'
-import AddTag from 'VIEWS/addTag'
-import AddList from 'VIEWS/tagList'
-import ArticleList from 'VIEWS/articleList'
-import ArticleEdit from 'VIEWS/articleEdit'
-import UserleList from 'VIEWS/userList'
-import UserEdit from 'VIEWS/userEdit'
-import blogInfo from 'VIEWS/blogInfo'
 
 Vue.use(Router)
 
@@ -28,16 +21,17 @@ const router = new Router({
       name: 'menu',
       component: Menu,
       children: [
-        { path: '/tag/add', component: AddTag },
-        { path: '/tag/edit/:id', component: AddTag, props: true },
-        { path: '/tag/list', component: AddList },
-        { path: '/article/list', component: ArticleList },
-        { path: '/article/add', component: ArticleEdit },
-        { path: '/article/edit/:id', component: ArticleEdit, props: true },
-        { path: '/user/list', component: UserleList },
-        { path: '/user/add', component: UserEdit },
-        { path: '/user/edit/:id', component: UserEdit, props: true },
-        { path: '/blog/info', component: blogInfo, props: true }
+        { path: '/tag/add', component: resolve => import('VIEWS/addTag') },
+        { path: '/tag/edit/:id', component: resolve => import('VIEWS/addTag'), props: true },
+        { path: '/tag/list', component: resolve => import('VIEWS/tagList') },
+        { path: '/article/list', component: resolve => import('VIEWS/articleList') },
+        { path: '/article/add', component: resolve => import('VIEWS/articleEdit') },
+        { path: '/article/edit/:id', component: resolve => import('VIEWS/articleEdit'), props: true },
+        { path: '/user/list', component: resolve => import('VIEWS/userList') },
+        { path: '/user/add', component: resolve => import('VIEWS/userEdit') },
+        { path: '/user/edit/:id', component: resolve => import('VIEWS/userEdit'), props: true },
+        { path: '/blog/info', component: resolve => import('VIEWS/blogInfo'), props: true },
+        { path: '/evaluation/:id', component: resolve => import('VIEWS/evaluationList'), props: true }
       ]
     }
   ]

@@ -26,11 +26,13 @@ export default {
 </script>
 
 <style lang="less">
-@import "~COMMON/less/font.less";
+@import "~COMMON/less/icon_font.less";
+@import "~COMMON/less/base.less";
 #user-contact {
   .user-contact-item {
     line-height: 44px;
     border-bottom: 1px solid #f0f0f0;
+    .Mult-line(1);
     .contact_iconfont {
       font-size: 18px;
       vertical-align: middle;

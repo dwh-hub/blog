@@ -29,6 +29,12 @@ module.exports = app => {
   })
   // 删
   router.post('/delete', async (req, res) => {
+    if (req.Model.modelName === 'User') {
+      const userList = await req.Model.find()
+      if (userList.length == 1) {
+        return res.send(fail(500, '管理员数量不得少于1位'))
+      }
+    }
     assert(req.body._id, 403, '缺失参数_id')
     await req.Model.remove({ _id: req.body._id })
     res.send(success(null, '删除成功'))
@@ -42,7 +48,12 @@ module.exports = app => {
   // 查
   router.get('/:id', async (req, res) => {
     assert(req.params.id, 403, '缺失参数_id')
-    const item = await req.Model.findById({ _id: req.params.id })
+    let item = []
+    if (req.Model.modelName === 'Evaluation') {
+      item = await req.Model.find({ articleId: req.params.id })
+    } else {
+      item = await req.Model.findById({ _id: req.params.id })
+    }
     res.send(success(item))
   })
   // 列表

@@ -2,8 +2,6 @@ import Vue from 'vue'
 import axios from "axios";
 import router from '../router/index.js'
 
-// window.api = 'http://localhost:3000'
-
 axios.defaults.baseURL = 'http://localhost:3000'
 
 // 请求之前处理

@@ -5,7 +5,8 @@ const schema = new mongoose.Schema({
   editorType: { type: Number }, // 1 markdown 2 html
   addTime: { type: Date, default: Date.now },
   tag: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Tag' }],
-  content: { type: String}
+  MDContent: { type: String},
+  HTMLContent: { type: String}
 })
 
 module.exports = mongoose.model('Article', schema)

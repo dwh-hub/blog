@@ -26,8 +26,9 @@
         <el-input type="text" v-model="title"></el-input>
       </el-form-item>
       <el-form-item label="内容">
-        <mavon-editor ref="md" v-model="content" @imgAdd="$imgAdd" v-if="editorType == 1"/>
-        <tinymce-editor id="tinymce" v-model="contentHtml" :init="tinymceInit" v-if="editorType == 2"></tinymce-editor>
+        <mavon-editor ref="md" v-model="content" @imgAdd="$imgAdd" v-show="editorType == 1" />
+        <!-- :init="tinymceInit" id="tinymce" -->
+        <tinymce-editor ref="editor" v-model="contentHtml" v-show="editorType == 2"></tinymce-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="saveArticle()">保存</el-button>
@@ -39,10 +40,7 @@
 <script>
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-
-import tinymce from "tinymce/tinymce";
-import "tinymce/themes/silver/theme";
-import tinymceEditor from "@tinymce/tinymce-vue";
+import tinymceEditor from "../components/tinymce-editor";
 
 export default {
   props: {
@@ -55,20 +53,17 @@ export default {
       title: "",
       content: "",
       contentHtml: "",
-      tinymceInit: {
-        language_url: '../../public/zh_CN.js',
-        language: 'zh_CN',
-        // skin_url: '../../public/skins/ui/oxide',
-        height: 300
-      },
-      editorTypes: [{
-        value: 1,
-        type: 'markdown'
-      },{
-        value: 2,
-        type: 'html'
-      }],
-      editorType: 1
+      editorTypes: [
+        {
+          value: 1,
+          type: "markdown"
+        },
+        {
+          value: 2,
+          type: "html"
+        }
+      ],
+      editorType: 2
     };
   },
   components: {
@@ -80,15 +75,16 @@ export default {
     this.getTagList();
   },
   mounted() {
-    tinymce.init({})
   },
   methods: {
     async fetch() {
       const res = await this.$axios.get(`/admin/api/reset/article/${this.id}`);
       this.title = res.data.title;
       this.tags = res.data.tag;
-      res.data.editorType == 1 ? this.content = res.data.content : this.contentHtml = res.data.content;
-      this.editorType = res.data.editorType
+      res.data.editorType == 1
+        ? (this.content = res.data.MDContent)
+        : (this.contentHtml = res.data.HTMLContent);
+      this.editorType = res.data.editorType;
     },
     async getTagList() {
       const res = await this.$axios.get("/admin/api/reset/tag");
@@ -102,20 +98,18 @@ export default {
     },
     async saveArticle() {
       let res;
-      if (this.id) {
-        res = await this.$axios.post("/admin/api/reset/article/edit", {
-          _id: this.id,
+      let params = {
           title: this.title,
           tag: this.tags,
-          content: this.editorType == 1 ? this.content : this.contentHtml,
+          MDContent: this.editorType == 1 ? this.content : '',
+          HTMLContent: this.editorType == 2 ? this.contentHtml : this.$refs.md.d_render,
           editorType: this.editorType
-        });
+        }
+      if (this.id) {
+        params._id = this.id
+        res = await this.$axios.post("/admin/api/reset/article/edit", params);
       } else {
-        res = await this.$axios.post("/admin/api/reset/article/add", {
-          title: this.title,
-          tag: this.tags,
-          content: this.editorType == 1 ? this.content : this.contentHtml
-        });
+        res = await this.$axios.post("/admin/api/reset/article/add", params);
       }
       this.$message({
         message: res.message,
@@ -124,7 +118,11 @@ export default {
       this.$router.push({ path: "/article/list" });
     },
     changeEditorType() {
-      console.log(this.editorType)
+      console.log(this.editorType);
+    },
+    //清空html编辑器内容
+    clear() {
+      this.$refs.editor.clear();
     }
   }
 };
