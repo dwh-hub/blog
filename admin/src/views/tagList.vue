@@ -1,37 +1,45 @@
 <template>
   <div class="add-list">
     <h1>标签列表</h1>
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-    >
+    <page-table :data="tableData" @pageChange="loadData" :paging="pageInfo">
       <el-table-column label="id" prop="_id"></el-table-column>
       <el-table-column label="上级标签" prop="parent.name"></el-table-column>
       <el-table-column label="标签名" prop="name"></el-table-column>
       <el-table-column align="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="$router.push(`/tag/edit/${scope.row._id}`);">编辑</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="$router.push(`/tag/edit/${scope.row._id}`);"
+          >编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
-    </el-table>
+    </page-table>
   </div>
 </template>
 
 <script>
+import pageTable from "COMPS/pageTable";
+import pageTableMixin from "../mixin/pageTableMixin";
+
 export default {
   data() {
-    return {
-      tableData: []
-    };
+    return {};
   },
-  mounted() {
-    this.getTagList();
+  components: {
+    pageTable
   },
+  mixins: [pageTableMixin],
   methods: {
-    async getTagList() {
-      const res = await this.$axios.get("/admin/api/reset/tag");
-      this.tableData = res.data;
+    async loadData() {
+      const res = await this.$axios.get("/admin/api/reset/tag", {
+        params: {
+          pageNo: this.pageInfo.pageNo,
+          pageSize: this.pageInfo.pageSize
+        }
+      });
+      this.handleData(res)
     },
     editTag(index, row) {
       this.$prompt("请输入修改后的标签名", "编辑", {
@@ -49,7 +57,7 @@ export default {
                 type: "success",
                 message: res.message
               });
-              this.getTagList();
+              this.loadData();
             });
         })
         .catch(() => {
@@ -75,7 +83,7 @@ export default {
                 type: "success",
                 message: res.message
               });
-              this.getTagList();
+              this.loadData();
             });
         })
         .catch();

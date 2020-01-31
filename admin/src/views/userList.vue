@@ -1,10 +1,7 @@
 <template>
   <div class="user-list">
     <h1>管理员列表</h1>
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-    >
+    <page-table :data="tableData" @pageChange="loadData" :paging="pageInfo">
       <el-table-column label="id" prop="_id"></el-table-column>
       <el-table-column label="管理员名字" prop="username"></el-table-column>
       <el-table-column align="right">
@@ -17,24 +14,28 @@
           <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
-    </el-table>
+    </page-table>
   </div>
 </template>
 
 <script>
+import pageTable from "COMPS/pageTable";
+import pageTableMixin from "../mixin/pageTableMixin";
+
 export default {
   data() {
     return {
       tableData: []
-    }
+    };
   },
-  created() {
-    this.getUserList()
+  components: {
+    pageTable
   },
+  mixins: [pageTableMixin],
   methods: {
-    async getUserList() {
+    async loadData() {
       const res = await this.$axios.get("/admin/api/reset/user");
-      this.tableData = res.data
+      this.handleData(res)
     },
     deleteTag(index, row) {
       this.$confirm(`是否删除管理员 "${row.username}"?`, "提示", {
@@ -52,7 +53,7 @@ export default {
                 type: "success",
                 message: res.message
               });
-              this.getUserList()
+              this.loadData();
             });
         })
         .catch();

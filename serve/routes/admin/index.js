@@ -58,6 +58,8 @@ module.exports = app => {
   })
   // 列表
   router.get('/', async (req, res) => {
+    let pageNo = Number(req.query.pageNo)
+    let pageSize = Number(req.query.pageSize) || 10
     const queryOptions = {}
     if (req.Model.modelName === 'Tag') {
       queryOptions.populate = 'parent'
@@ -66,8 +68,18 @@ module.exports = app => {
       const Tag = require(`../../models/Tag`)
       queryOptions.populate = 'tag'
     }
-    const items = await req.Model.find().setOptions(queryOptions).limit(10)
-    res.send(success(items))
+    let model = req.Model.find()
+    let all = await model
+    const items = await model.setOptions(queryOptions).skip((pageNo-1) * pageSize).limit(pageSize)
+    res.send({
+      code: 200,
+      message: '',
+      data: {
+        total: all.length,
+        pageNum: pageNo ? all.length/pageSize : 1,
+        list: pageNo ? items : all
+      }
+    })
   })
 
   // 校验登录中间件

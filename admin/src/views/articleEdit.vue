@@ -88,7 +88,7 @@ export default {
     },
     async getTagList() {
       const res = await this.$axios.get("/admin/api/reset/tag");
-      this.parentOptions = res.data;
+      this.parentOptions = res.data.list;
     },
     async $imgAdd(pos, $file) {
       const formdata = new FormData();
