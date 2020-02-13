@@ -31,11 +31,18 @@ const router = new Router({
         { path: '/user/add', component: resolve => import('VIEWS/userEdit') },
         { path: '/user/edit/:id', component: resolve => import('VIEWS/userEdit'), props: true },
         { path: '/blog/info', component: resolve => import('VIEWS/blogInfo'), props: true },
-        { path: '/evaluation/:id', component: resolve => import('VIEWS/evaluationList'), props: true }
+        { path: '/evaluation/:id?', component: resolve => import('VIEWS/evaluationList'), props: true }
       ]
     }
   ]
 })
+
+// 处理router连续点击多次路由报错问题
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.isPublic && !localStorage.admin_token) {

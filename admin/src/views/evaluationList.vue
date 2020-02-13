@@ -9,7 +9,7 @@
       <el-table-column align="right">
         <template slot-scope="scope">
           <!-- <el-button size="mini" type="primary">编辑</el-button> -->
-          <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="deleteEvaluatioin(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -17,6 +17,9 @@
 </template>
 
 <script>
+import pageTable from "COMPS/pageTable";
+import pageTableMixin from "../mixin/pageTableMixin";
+
 export default {
   props: {
     id: {}
@@ -26,13 +29,24 @@ export default {
       tableData: []
     };
   },
+  components: {
+    pageTable
+  },
+  mixins: [pageTableMixin],
   mounted() {
-    this.getEvaluations();
+    this.loadData();
   },
   methods: {
-    async getEvaluations() {
-      let res = await this.$axios.get(`/admin/api/reset/evaluation/${this.id}`);
-      this.tableData = res.data;
+    async loadData() {
+      let url = this.id ? `/admin/api/reset/evaluation/${this.id}` : '/admin/api/reset/evaluation'
+      let res = await this.$axios.get('/admin/api/reset/evaluation', {
+        params: {
+          articleId: this.id || null,
+          pageNo: this.pageInfo.pageNo,
+          pageSize: this.pageInfo.pageSize
+        }
+      });
+      this.handleData(res)
     },
     deleteEvaluatioin(index, row) {
       this.$confirm(`是否删除该评论?`, "提示", {
@@ -50,7 +64,7 @@ export default {
                 type: "success",
                 message: res.message
               });
-              this.getEvaluations();
+              this.loadData();
             });
         })
         .catch();

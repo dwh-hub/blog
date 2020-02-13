@@ -61,6 +61,7 @@ module.exports = app => {
     let pageNo = Number(req.query.pageNo)
     let pageSize = Number(req.query.pageSize) || 10
     const queryOptions = {}
+    let model = req.Model.find()
     if (req.Model.modelName === 'Tag') {
       queryOptions.populate = 'parent'
     }
@@ -68,7 +69,9 @@ module.exports = app => {
       const Tag = require(`../../models/Tag`)
       queryOptions.populate = 'tag'
     }
-    let model = req.Model.find()
+    if (req.Model.modelName === 'Evaluation' && req.query.articleId) {
+      model = req.Model.find({ articleId: req.query.articleId })
+    }
     let all = await model
     const items = await model.setOptions(queryOptions).skip((pageNo-1) * pageSize).limit(pageSize)
     res.send({

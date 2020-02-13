@@ -45,7 +45,7 @@ module.exports = app => {
 
   // 获取博客文章/评论数量
   router.get('/user/count', async (req, res) => {
-    const articleCount = await Article.count()
+    const articleCount = await Article.countDocuments()
     const shuoshuoCount = 0
     const evalutaionCount = 0
     let userCount = {
@@ -59,7 +59,7 @@ module.exports = app => {
   // 评论文章
   const Evaluation = require('../../models/Evaluation')
   router.post('/evaluate', async (req, res) => {
-    assert(req.body.articleId, 403, '缺失参数_articleId')
+    assert(req.body.articleId, 403, '缺失参数: articleId')
     assert(req.body.nickname, 403, '请填写昵称')
     assert(req.body.email, 403, '请填写邮箱')
     const model = await Evaluation.create(req.body)
@@ -67,8 +67,14 @@ module.exports = app => {
   })
   // 评论列表
   router.get('/evaluate/list', async (req, res) => {
-    const list = await Evaluation.find().limit(10)
-    res.send(success(list))
+    let model
+    if (req.query.articleId) {
+      model = Evaluation.find({ articleId: req.query.articleId })
+    } else {
+      model = Evaluation.find()
+    }
+    const listJson = await require('../../tools/pagination')(req, model)
+    res.send(success(listJson))
   })
 
   // 博客信息

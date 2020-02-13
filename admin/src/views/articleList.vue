@@ -27,8 +27,7 @@ import pageTableMixin from "../mixin/pageTableMixin";
 export default {
   data() {
     return {
-      tableData: [],
-      pageInfo: { pageNo: 1, pageSize: 10, pageSizes: [10, 30, 50], total: 0 }
+      tableData: []
     };
   },
   components: {
@@ -37,7 +36,12 @@ export default {
   mixins: [pageTableMixin],
   methods: {
     async loadData() {
-      const res = await this.$axios.get("/admin/api/reset/article");
+      const res = await this.$axios.get("/admin/api/reset/article", {
+        params: {
+          pageNo: this.pageInfo.pageNo,
+          pageSize: this.pageInfo.pageSize
+        }
+      });
       res.data.list = res.data.list.map(e => {
         e.tags = String(e.tag.map(t => t.name));
         return e;

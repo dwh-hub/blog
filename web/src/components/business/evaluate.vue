@@ -11,7 +11,7 @@
     <div class="content">
       <textarea v-model="content"></textarea>
     </div>
-    <div class="submit" @click="evaluate">发表评论</div>
+    <button class="submit" @click="evaluate">发表评论</button>
   </div>
 </template>
 
@@ -25,10 +25,21 @@ export default {
     return {
       nickname: "",
       email: "",
-      content: ""
+      content: "",
+      evalutaions: []
     };
   },
+  created() {
+    this.getEvalutaions()
+  },
   methods: {
+    async getEvalutaions() {
+      let res = await this.$axios.get('/web/api/evaluate/list', {
+        params: {
+          articleId: this.articleId
+        }
+      })
+    },
     async evaluate() {
       let params = {
         articleId: this.articleId,

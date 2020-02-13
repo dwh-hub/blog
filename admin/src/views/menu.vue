@@ -16,6 +16,10 @@
             <el-menu-item index="/article/add">编辑文章</el-menu-item>
             <el-menu-item index="/article/list">文章列表</el-menu-item>
           </el-menu-item-group>
+          <el-menu-item-group>
+            <span slot="title">评论</span>
+            <el-menu-item index="/evaluation">评论列表</el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">

@@ -34,7 +34,12 @@ export default {
   mixins: [pageTableMixin],
   methods: {
     async loadData() {
-      const res = await this.$axios.get("/admin/api/reset/user");
+      const res = await this.$axios.get("/admin/api/reset/user", {
+        params: {
+          pageNo: this.pageInfo.pageNo,
+          pageSize: this.pageInfo.pageSize
+        }
+      });
       this.handleData(res)
     },
     deleteTag(index, row) {
