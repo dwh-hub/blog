@@ -47,13 +47,14 @@ module.exports = app => {
     res.send(success(null, '修改成功'))
   })
   // 查
-  router.get('/:id', async (req, res) => {
-    assert(req.params.id, 403, '缺失参数_id')
+  router.get('/detail', async (req, res) => {
+    console.log(req.query)
+    assert(req.query.id, 403, '缺失参数_id')
     let item = []
     if (req.Model.modelName === 'Evaluation') {
-      item = await req.Model.find({ articleId: req.params.id })
+      item = await req.Model.find({ articleId: req.query.id })
     } else {
-      item = await req.Model.findById({ _id: req.params.id })
+      item = await req.Model.findById({ _id: req.query.id })
     }
     res.send(success(item))
   })
