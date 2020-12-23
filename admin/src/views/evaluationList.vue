@@ -6,6 +6,7 @@
       <el-table-column label="昵称" prop="nickname"></el-table-column>
       <el-table-column label="邮箱" prop="email"></el-table-column>
       <el-table-column label="内容" prop="content"></el-table-column>
+      <el-table-column label="时间" prop="addTime"></el-table-column>
       <el-table-column align="right">
         <template slot-scope="scope">
           <!-- <el-button size="mini" type="primary">编辑</el-button> -->
@@ -19,6 +20,7 @@
 <script>
 import pageTable from "COMPS/pageTable";
 import pageTableMixin from "../mixin/pageTableMixin";
+import { formatDate } from "COMMON/js/tools"
 
 export default {
   props: {
@@ -46,6 +48,10 @@ export default {
           pageSize: this.pageInfo.pageSize
         }
       });
+      res.data.list = res.data.list.map(e => {
+        e.addTime = e.addTime ? formatDate(new Date(e.addTime), 'yyyy-MM-dd hh:ss') : '--'
+        return e
+      })
       this.handleData(res)
     },
     deleteEvaluatioin(index, row) {

@@ -47,7 +47,7 @@ export default {
     },
     async getTagList() {
       const res = await this.$axios.get("/admin/api/reset/tag");
-      this.parentOptions = [{name: '无', _id: undefined}].concat(res.data);
+      this.parentOptions = [{name: '无', _id: undefined}].concat(res.data.list);
     },
     async saveTag() {
       let res;

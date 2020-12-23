@@ -24,8 +24,7 @@ export default {
       this.tagList = res.data;
     },
     toTagList(id) {
-      this.$router.push(`/${id}`)
-      window.location.reload()
+      this.$router.push(`/tag/${id}`)
     }
   }
 };

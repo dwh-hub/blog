@@ -36,7 +36,8 @@ module.exports = app => {
       }
     }
     assert(req.body._id, 403, '缺失参数_id')
-    await req.Model.remove({ _id: req.body._id })
+    // await req.Model.remove({ _id: req.body._id })
+    await req.Model.deleteOne({ _id: req.body._id })
     res.send(success(null, '删除成功'))
   })
   // 改

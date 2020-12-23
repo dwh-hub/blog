@@ -18,7 +18,7 @@
         <p class="text">说说</p>
       </a>
       <a class="user-card-sum-item">
-        <p class="num">{{userCount.evalutaionCount}}</p>
+        <p class="num">{{userCount.evaluationCount}}</p>
         <p class="text">评论</p>
       </a>
     </div>

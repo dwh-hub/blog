@@ -19,6 +19,7 @@ module.exports = app => {
   const router = express.Router()
   const assert = require('http-assert')
   const Article = require('../../models/Article')
+  const Evaluation = require('../../models/Evaluation')
   const Tag = require('../../models/Tag')
 
 
@@ -46,22 +47,22 @@ module.exports = app => {
   // 获取博客文章/评论数量
   router.get('/user/count', async (req, res) => {
     const articleCount = await Article.countDocuments()
+    const evaluationCount = await Evaluation.countDocuments()
     const shuoshuoCount = 0
-    const evalutaionCount = 0
     let userCount = {
       articleCount,
       shuoshuoCount,
-      evalutaionCount,
+      evaluationCount,
     }
     res.send(success(userCount)) 
   })
 
   // 评论文章
-  const Evaluation = require('../../models/Evaluation')
   router.post('/evaluate', async (req, res) => {
     assert(req.body.articleId, 403, '缺失参数: articleId')
     assert(req.body.nickname, 403, '请填写昵称')
     assert(req.body.email, 403, '请填写邮箱')
+    req.body.addTime = new Date().getTime()
     const model = await Evaluation.create(req.body)
     res.send(success(model, '评论成功'))
   })

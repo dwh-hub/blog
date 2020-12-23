@@ -41,6 +41,7 @@ export default {
       })
     },
     async evaluate() {
+      if (!this.nickname) return alert('请填写昵称')
       let params = {
         articleId: this.articleId,
         nickname: this.nickname,
