@@ -40,7 +40,7 @@
 <script>
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-import tinymceEditor from "../components/tinymce-editor";
+import tinymceEditor from "../../../components/tinymce-editor";
 
 export default {
   props: {
@@ -78,7 +78,8 @@ export default {
   },
   methods: {
     async fetch() {
-      const res = await this.$axios.get(`/admin/api/reset/article/${this.id}`);
+      // const res = await this.$axios.get(`/admin/api/reset/article/${this.id}`);
+      const res = await this.$api.article.fetchArticle({ id: this.id });
       this.title = res.data.title;
       this.tags = res.data.tag;
       res.data.editorType == 1
@@ -87,13 +88,15 @@ export default {
       this.editorType = res.data.editorType;
     },
     async getTagList() {
-      const res = await this.$axios.get("/admin/api/reset/tag");
+      // const res = await this.$axios.get("/admin/api/reset/tag");
+      const res = await this.$api.tag.fetchTagList();
       this.parentOptions = res.data.list;
     },
     async $imgAdd(pos, $file) {
       const formdata = new FormData();
       formdata.append("file", $file);
-      const res = await this.$axios.post("/admin/api/upload", formdata);
+      // const res = await this.$axios.post("/admin/api/upload", formdata);
+      const res = await this.$api.common.uploadImg(formdata);
       this.$refs.md.$img2Url(pos, res.data);
     },
     async saveArticle() {

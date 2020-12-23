@@ -10,7 +10,11 @@
       </el-form-item>
       <el-form-item label="头像">
         <div class="assess-img-wrapper">
-          <div class="assess-img" @click="previewImage(blogInfo.avatar)" v-if="blogInfo.avatar">
+          <div
+            class="assess-img"
+            @click="previewImage(blogInfo.avatar)"
+            v-if="blogInfo.avatar"
+          >
             <img :src="blogInfo.avatar" class="avatar-img" />
             <i class="delete-icon" @click.stop="blogInfo.avatar = ''"></i>
           </div>
@@ -55,20 +59,22 @@ export default {
         name: "",
         profile: "",
         avatar: "",
-        bgUrl: ""
+        bgUrl: "",
       },
       previewSrc: "",
-      previewVisible: false
+      previewVisible: false,
     };
   },
   mounted() {
-    this.getInfo()
+    this.getInfo();
   },
   methods: {
     async getInfo() {
-      let info = await this.$axios.post("/admin/api/blogInfo");
-      for (let k in this.blogInfo) {
-        this.blogInfo[k] = info.data[k]
+      let info = await this.$api.setting.fetchBlogInfo();
+      if (info.data) {
+        for (let k in this.blogInfo) {
+          this.blogInfo[k] = info.data[k];
+        }
       }
     },
     async save() {
@@ -76,17 +82,14 @@ export default {
         if (!this.blogInfo[k]) {
           return this.$message({
             message: `缺失${k}`,
-            type: "warning"
+            type: "warning",
           });
         }
       }
-      const res = await this.$axios.post(
-        "/admin/api/blogInfo/update",
-        this.blogInfo
-      );
+      const res = await this.$api.setting.updateBlogInfo(this.blogInfo);
       this.$message({
         message: res.message,
-        type: "success"
+        type: "success",
       });
     },
     previewImage(url) {
@@ -103,20 +106,20 @@ export default {
       let file = e.target.files[0];
       const formdata = new FormData();
       formdata.append("file", file);
-      const res = await this.$axios.post("/admin/api/upload", formdata);
+      const res = await this.$api.common.uploadImg(formdata);
       return res.data;
     },
     selectAvatar(e) {
-      this.uploadImg(e).then(url => {
+      this.uploadImg(e).then((url) => {
         this.blogInfo.avatar = url;
       });
     },
     selectBG(e) {
-      this.uploadImg(e).then(url => {
+      this.uploadImg(e).then((url) => {
         this.blogInfo.bgUrl = url;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

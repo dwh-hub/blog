@@ -3,13 +3,15 @@ import App from './App.vue'
 import router from './router/index.js'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import axios from "./config/axios";
+// import axios from "./config/axios";
+import api from "./api"
 
 Vue.use(ElementUI);
 
-window.api = 'http://localhost:3000'
+// window.api = 'http://localhost:3000'
 
-Vue.prototype.$axios = axios;
+// Vue.prototype.$axios = axios;
+Vue.prototype.$api = api;
 
 Vue.config.productionTip = false
 

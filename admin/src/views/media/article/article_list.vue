@@ -22,7 +22,7 @@
 
 <script>
 import pageTable from "COMPS/pageTable";
-import pageTableMixin from "../mixin/pageTableMixin";
+import pageTableMixin from "@/mixin/pageTableMixin";
 
 export default {
   data() {
@@ -36,7 +36,7 @@ export default {
   mixins: [pageTableMixin],
   methods: {
     async loadData() {
-      const res = await this.$axios.get("/admin/api/reset/article", {
+      const res = await this.$api.article.fetchArticleList("/admin/api/reset/article", {
         params: {
           pageNo: this.pageInfo.pageNo,
           pageSize: this.pageInfo.pageSize
@@ -55,8 +55,8 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.$axios
-            .post("/admin/api/reset/article/delete", {
+          this.$api.article
+            .deleteArticle("/admin/api/reset/article/delete", {
               _id: row._id
             })
             .then(res => {

@@ -31,19 +31,20 @@ export default {
   },
   methods: {
     async fetch() {
-      const res = await this.$axios.get(`/admin/api/reset/user/${this.id}`);
+      // const res = await this.$axios.get(`/admin/api/reset/user/${this.id}`);
+      const res = await this.$api.user.fetchUser({ id: this.id });
       this.username = res.data.username
     },
     async saveUser() {
       let res;
       if (this.id) {
-        res = await this.$axios.post("/admin/api/reset/user/edit", {
+        res = await this.$api.user.editUser({
           _id: this.id,
           username: this.username,
           password: this.password
         });
       } else {
-        res = await this.$axios.post("/admin/api/reset/user/add", {
+        res = await this.$api.user.addUser({
           username: this.username,
           password: this.password
         });

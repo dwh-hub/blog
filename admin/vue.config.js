@@ -6,10 +6,13 @@ function resolve(dir) {
 
 module.exports = {
   lintOnSave: false,
+  devServer: {
+    port: 4000
+  },
   configureWebpack: {
     resolve: {
       alias: {
-        '@': resolve('src'),
+        '@': path.resolve(__dirname, './src'),
         'ASSETS': path.resolve(__dirname, './src/assets'),
         'COMPS': path.resolve(__dirname, './src/components'),
         'COMMON': path.resolve(__dirname, './src/common'),

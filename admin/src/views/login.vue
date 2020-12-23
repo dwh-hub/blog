@@ -30,7 +30,7 @@ export default {
     async login() {
       let res = {}
       try {
-        res = await this.$axios.post('/admin/api/login', this.user)
+        res = await this.$api.login.login(this.user)
       } catch {}
       if (res.code == 200) {
         localStorage.setItem('admin_token', res.data)

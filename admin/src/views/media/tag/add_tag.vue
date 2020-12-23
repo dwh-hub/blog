@@ -41,24 +41,26 @@ export default {
   },
   methods: {
     async fetch() {
-      const res = await this.$axios.get(`/admin/api/reset/tag/${this.id}`);
+      const res = await this.$api.tag.fetchTag({
+        id: this.id
+      });
       this.parentTag = res.data.parent;
       this.tag = res.data.name;
     },
     async getTagList() {
-      const res = await this.$axios.get("/admin/api/reset/tag");
+      const res = await this.$api.tag.fetchTagList();
       this.parentOptions = [{name: '无', _id: undefined}].concat(res.data.list);
     },
     async saveTag() {
       let res;
       if (this.id) {
-        res = await this.$axios.post("/admin/api/reset/tag/edit", {
+        res = await this.$api.tag.editTag({
           _id: this.id,
           parent: this.parentTag,
           name: this.tag
         });
       } else {
-        res = await this.$axios.post("/admin/api/reset/tag/add", {
+        res = await this.$api.tag.addTag({
           parent: this.parentTag || undefined,
           name: this.tag
         });

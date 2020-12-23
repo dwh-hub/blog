@@ -10,7 +10,12 @@
       <el-table-column align="right">
         <template slot-scope="scope">
           <!-- <el-button size="mini" type="primary">编辑</el-button> -->
-          <el-button size="mini" type="danger" @click="deleteEvaluatioin(scope.$index, scope.row)">删除</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteEvaluatioin(scope.$index, scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -19,20 +24,20 @@
 
 <script>
 import pageTable from "COMPS/pageTable";
-import pageTableMixin from "../mixin/pageTableMixin";
-import { formatDate } from "COMMON/js/tools"
+import pageTableMixin from "@/mixin/pageTableMixin";
+import { formatDate } from "COMMON/js/tools";
 
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
-      tableData: []
+      tableData: [],
     };
   },
   components: {
-    pageTable
+    pageTable,
   },
   mixins: [pageTableMixin],
   mounted() {
@@ -40,42 +45,46 @@ export default {
   },
   methods: {
     async loadData() {
-      let url = this.id ? `/admin/api/reset/evaluation/${this.id}` : '/admin/api/reset/evaluation'
-      let res = await this.$axios.get('/admin/api/reset/evaluation', {
+      // let url = this.id
+      //   ? `/admin/api/reset/evaluation/${this.id}`
+      //   : "/admin/api/reset/evaluation";
+      let res = await this.$api.article.fetchEvaluation({
         params: {
           articleId: this.id || null,
           pageNo: this.pageInfo.pageNo,
-          pageSize: this.pageInfo.pageSize
-        }
+          pageSize: this.pageInfo.pageSize,
+        },
       });
-      res.data.list = res.data.list.map(e => {
-        e.addTime = e.addTime ? formatDate(new Date(e.addTime), 'yyyy-MM-dd hh:ss') : '--'
-        return e
-      })
-      this.handleData(res)
+      res.data.list = res.data.list.map((e) => {
+        e.addTime = e.addTime
+          ? formatDate(new Date(e.addTime), "yyyy-MM-dd hh:ss")
+          : "--";
+        return e;
+      });
+      this.handleData(res);
     },
     deleteEvaluatioin(index, row) {
       this.$confirm(`是否删除该评论?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
-          this.$axios
-            .post("/admin/api/reset/evaluation/delete", {
-              _id: row._id
+          this.$api.article
+            .deleteEvaluation({
+              _id: row._id,
             })
-            .then(res => {
+            .then((res) => {
               this.$message({
                 type: "success",
-                message: res.message
+                message: res.message,
               });
               this.loadData();
             });
         })
         .catch();
-    }
-  }
+    },
+  },
 };
 </script>
 

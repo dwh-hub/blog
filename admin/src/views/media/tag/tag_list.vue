@@ -10,9 +10,15 @@
           <el-button
             size="mini"
             type="primary"
-            @click="$router.push(`/tag/edit/${scope.row._id}`);"
-          >编辑</el-button>
-          <el-button size="mini" type="danger" @click="deleteTag(scope.$index, scope.row)">删除</el-button>
+            @click="$router.push(`/tag/edit/${scope.row._id}`)"
+            >编辑</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteTag(scope.$index, scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </page-table>
@@ -21,41 +27,41 @@
 
 <script>
 import pageTable from "COMPS/pageTable";
-import pageTableMixin from "../mixin/pageTableMixin";
+import pageTableMixin from "@/mixin/pageTableMixin";
 
 export default {
   data() {
     return {};
   },
   components: {
-    pageTable
+    pageTable,
   },
   mixins: [pageTableMixin],
   methods: {
     async loadData() {
-      const res = await this.$axios.get("/admin/api/reset/tag", {
+      const res = await this.$api.tag.fetchTagList({
         params: {
           pageNo: this.pageInfo.pageNo,
-          pageSize: this.pageInfo.pageSize
-        }
+          pageSize: this.pageInfo.pageSize,
+        },
       });
-      this.handleData(res)
+      this.handleData(res);
     },
     editTag(index, row) {
       this.$prompt("请输入修改后的标签名", "编辑", {
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
       })
         .then(({ value }) => {
-          this.$axios
-            .post("/admin/api/reset/tag/edit", {
+          this.$api.tag
+            .editTag({
               _id: row._id,
-              name: value
+              name: value,
             })
-            .then(res => {
+            .then((res) => {
               this.$message({
                 type: "success",
-                message: res.message
+                message: res.message,
               });
               this.loadData();
             });
@@ -63,7 +69,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "取消输入"
+            message: "取消输入",
           });
         });
     },
@@ -71,23 +77,23 @@ export default {
       this.$confirm(`是否删除标签 "${row.name}"?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
-          this.$axios
-            .post("/admin/api/reset/tag/delete", {
-              _id: row._id
+          this.$api.tag
+            .deleteTag({
+              _id: row._id,
             })
-            .then(res => {
+            .then((res) => {
               this.$message({
                 type: "success",
-                message: res.message
+                message: res.message,
               });
               this.loadData();
             });
         })
         .catch();
-    }
-  }
+    },
+  },
 };
 </script>
