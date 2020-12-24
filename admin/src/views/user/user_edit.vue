@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     async fetch() {
-      // const res = await this.$axios.get(`/admin/api/reset/user/${this.id}`);
       const res = await this.$api.user.fetchUser({ id: this.id });
       this.username = res.data.username
     },

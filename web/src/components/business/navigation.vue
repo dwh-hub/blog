@@ -1,7 +1,7 @@
 <template>
   <div id="navigation">
     <div class="nav-lg">
-      <div class="logo">LOGO文字</div>
+      <div class="logo">大花园</div>
       <div class="nav-main">
         <ul>
           <li class="nav-item" @click="homeback">
@@ -42,8 +42,8 @@ export default {
 @import "~COMMON/less/base.less";
 #navigation {
   width: 100%;
-  height: 42px;
-  line-height: 42px;
+  height: 46px;
+  line-height: 46px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
   .nav-lg {

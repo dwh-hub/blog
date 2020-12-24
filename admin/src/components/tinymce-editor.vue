@@ -91,7 +91,7 @@ export default {
     async insertImg(blobInfo, success, failure) {
       let formData = new FormData();
       formData.append("file", blobInfo.blob(), blobInfo.filename());
-      const res = await this.$axios.post("/admin/api/upload", formData);
+      const res = await this.$api.common.uploadImg(formData);
       success(res.data);
       // xhr.send(formData);
     }

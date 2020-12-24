@@ -36,7 +36,7 @@ export default {
   mixins: [pageTableMixin],
   methods: {
     async loadData() {
-      const res = await this.$api.article.fetchArticleList("/admin/api/reset/article", {
+      const res = await this.$api.article.fetchArticleList({
         params: {
           pageNo: this.pageInfo.pageNo,
           pageSize: this.pageInfo.pageSize
@@ -56,15 +56,16 @@ export default {
       })
         .then(() => {
           this.$api.article
-            .deleteArticle("/admin/api/reset/article/delete", {
+            .deleteArticle({
               _id: row._id
             })
             .then(res => {
+              console.log(res)
               this.$message({
                 type: "success",
                 message: res.message
               });
-              this.loadData();
+              this.resetData();
             });
         })
         .catch();

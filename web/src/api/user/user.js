@@ -5,7 +5,7 @@ export default {
   fetchBlogInfo() {
     return http.POST('/web/api/blogInfo');
   },
-  // 博客流量
+  // 博客数据
   fetchBlogCount() {
     return http.GET('/web/api/user/count');
   },

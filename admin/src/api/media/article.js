@@ -9,9 +9,17 @@ export default {
   fetchArticleList(params) {
     return http.GET("/admin/api/reset/article", params);
   },
+  // 编辑文章
+  editArticle(params) {
+    return http.POST("/admin/api/reset/article/edit", params);
+  },
+  // 新增文章
+  addArticle(params) {
+    return http.POST("/admin/api/reset/article/add", params);
+  },
   // 删除文章
   deleteArticle(params) {
-    return http.POST("/admin/api/reset/article", params);
+    return http.POST("/admin/api/reset/article/delete", params);
   },
   // 评价列表
   fetchEvaluation(params) {

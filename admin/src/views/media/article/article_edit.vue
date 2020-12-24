@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     async fetch() {
-      // const res = await this.$axios.get(`/admin/api/reset/article/${this.id}`);
       const res = await this.$api.article.fetchArticle({ id: this.id });
       this.title = res.data.title;
       this.tags = res.data.tag;
@@ -88,14 +87,12 @@ export default {
       this.editorType = res.data.editorType;
     },
     async getTagList() {
-      // const res = await this.$axios.get("/admin/api/reset/tag");
       const res = await this.$api.tag.fetchTagList();
       this.parentOptions = res.data.list;
     },
     async $imgAdd(pos, $file) {
       const formdata = new FormData();
       formdata.append("file", $file);
-      // const res = await this.$axios.post("/admin/api/upload", formdata);
       const res = await this.$api.common.uploadImg(formdata);
       this.$refs.md.$img2Url(pos, res.data);
     },
@@ -110,9 +107,9 @@ export default {
         }
       if (this.id) {
         params._id = this.id
-        res = await this.$axios.post("/admin/api/reset/article/edit", params);
+        res = await this.$api.article.editArticle( params);
       } else {
-        res = await this.$axios.post("/admin/api/reset/article/add", params);
+        res = await this.$api.article.addArticle(params);
       }
       this.$message({
         message: res.message,
