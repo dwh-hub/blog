@@ -10,7 +10,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@': resolve('src'),
+        '@': path.resolve(__dirname, './src'),
         'ASSETS': path.resolve(__dirname, './src/assets'),
         'COMPS': path.resolve(__dirname, './src/components'),
         'COMMON': path.resolve(__dirname, './src/common'),
@@ -19,7 +19,7 @@ module.exports = {
     }
   },
   devServer: {
-    host: '0.0.0.0'
+    port: 5000
   },
   pluginOptions: {
     'style-resources-loader': {

@@ -37,7 +37,9 @@ export default {
   },
   methods: {
     async getArticle() {
-      const res = await this.$axios.get(`/web/api/article/${this.id}`);
+      const res = await this.$api.article.fetchArticle({
+        id: id
+      });
       res.data.addTime = res.data.addTime.slice(0, 10);
       this.article = res.data;
     }

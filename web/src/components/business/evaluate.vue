@@ -6,7 +6,7 @@
     </div>
     <div class="email cell">
       <span class="cell-label">邮箱</span>
-      <input type="text"  v-model="email"/>
+      <input type="text" v-model="email" />
     </div>
     <div class="content">
       <textarea v-model="content"></textarea>
@@ -19,39 +19,37 @@
 export default {
   name: "evaluate",
   props: {
-    articleId: String
+    articleId: String,
   },
   data() {
     return {
       nickname: "",
       email: "",
       content: "",
-      evalutaions: []
+      evalutaions: [],
     };
   },
   created() {
-    this.getEvalutaions()
+    this.getEvalutaions();
   },
   methods: {
     async getEvalutaions() {
-      let res = await this.$axios.get('/web/api/evaluate/list', {
-        params: {
-          articleId: this.articleId
-        }
-      })
+      let res = await this.$api.article.fetchArticleEvalutaions({
+        articleId: this.articleId,
+      });
     },
     async evaluate() {
-      if (!this.nickname) return alert('请填写昵称')
+      if (!this.nickname) return alert("请填写昵称");
       let params = {
         articleId: this.articleId,
         nickname: this.nickname,
         email: this.email,
-        content: this.content
+        content: this.content,
       };
-      let res = await this.$axios.post("/web/api/evaluate", params);
+      let res = await this.$api.article.sendComments(params);
       alert(res.message);
-    }
-  }
+    },
+  },
 };
 </script>
 

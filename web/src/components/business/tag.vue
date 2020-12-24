@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     async getTagList() {
-      const res = await this.$axios.get("/web/api/tag/list");
+      const res = await this.$api.article.fetchTagList();
       this.tagList = res.data;
     },
     toTagList(id) {

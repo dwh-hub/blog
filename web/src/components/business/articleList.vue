@@ -26,8 +26,9 @@ export default {
     async getArticleList() {
       this.isLoading = true
       let tagId = this.$route.params.id
-      let url = tagId ? `/web/api/article/list/${tagId}` : '/web/api/article/list'
-      const res = await this.$axios.get(url);
+      const res = await this.$api.article.fetchArticleList({
+        id: tagId
+      });
       this.articleList = res.data.map(e => {
         e.tag = String(e.tag.map(t => `#${t.name}#`));
         return {

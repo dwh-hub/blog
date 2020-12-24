@@ -44,7 +44,7 @@ export default {
       if (this.$store.state.userInfo) {
         this.blogInfo = this.$store.state.userInfo;
       } else {
-        let info = await this.$axios.post("/web/api/blogInfo");
+        let info = await this.$api.user.fetchBlogInfo();
         this.blogInfo = info.data;
         this.$store.commit("saveUserInfo", this.blogInfo);
       }
