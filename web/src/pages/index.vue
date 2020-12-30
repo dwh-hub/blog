@@ -21,8 +21,8 @@
 
 <script>
 import navigation from "COMPS/business/navigation";
-import userCard from "COMPS/business/userCard";
-import userContact from "COMPS/business/userContact";
+import userCard from "COMPS/business/user_card";
+import userContact from "COMPS/business/user_contact";
 import tag from "COMPS/business/tag";
 import MSidebar from "COMPS/business/MSidebar";
 

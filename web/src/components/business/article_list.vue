@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import articleItem from "COMPS/base/articleItem";
+import articleItem from "COMPS/base/article_item";
 import { formatDate } from "COMMON/js/tools"
 export default {
   name: "articleList",

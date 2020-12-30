@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import ArticleList from "COMPS/business/articleList";
+import ArticleList from "COMPS/business/article_list";
 
 Vue.use(Router);
 
@@ -26,7 +26,7 @@ export default new Router({
         },
         {
           path: "/article/:id",
-          component: (resolve) => import("PAGES/articlePage.vue"),
+          component: (resolve) => import("PAGES/article_page.vue"),
           props: true,
         },
       ],
