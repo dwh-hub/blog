@@ -40,10 +40,8 @@ export default {
   methods: {
     async loadData() {
       const res = await this.$api.tag.fetchTagList({
-        params: {
-          pageNo: this.pageInfo.pageNo,
-          pageSize: this.pageInfo.pageSize,
-        },
+        pageNo: this.pageInfo.pageNo,
+        pageSize: this.pageInfo.pageSize,
       });
       this.handleData(res);
     },
