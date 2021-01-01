@@ -1,12 +1,12 @@
 const path = require("path")
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, dir)
 }
 
 module.exports = {
+  outputDir: __dirname + '/../serve/front-end/web',
   lintOnSave: false,
-
   configureWebpack: {
     resolve: {
       alias: {

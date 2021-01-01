@@ -8,6 +8,8 @@ app.set('secret', 'dahuayuan')
 app.use(require('cors')())
 app.use(express.json())
 // 静态文件托管路由
+app.use('/', express.static(__dirname + '/front-end/web'))
+app.use('/admin', express.static(__dirname + '/front-end/admin'))
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
 require('./plugins/db')(app)

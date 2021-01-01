@@ -48,7 +48,6 @@ module.exports = app => {
   })
   // 查
   router.get('/detail', async (req, res) => {
-    console.log(req.query)
     assert(req.query.id, 403, '缺失参数_id')
     let item = []
     if (req.Model.modelName === 'Evaluation') {
@@ -60,6 +59,7 @@ module.exports = app => {
   })
   // 列表
   router.get('/', async (req, res) => {
+    console.log(req)
     let pageNo = Number(req.query.pageNo)
     let pageSize = Number(req.query.pageSize) || 10
     const queryOptions = {}

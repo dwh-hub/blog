@@ -1,12 +1,12 @@
 <template>
   <div id="navigation">
     <div class="nav-lg">
-      <div class="logo">大花园</div>
+      <div class="logo" @click="homeback">大花园</div>
       <div class="nav-main">
         <ul>
-          <li class="nav-item" @click="homeback">
+          <!-- <li class="nav-item" @click="homeback">
             <span>首页</span>
-          </li>
+          </li> -->
         </ul>
       </div>
       <div class="search"></div>
@@ -33,8 +33,8 @@ export default {
     },
     toggleMenu() {
       EventBus.$emit("toggleMenu");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -51,6 +51,7 @@ export default {
     height: 100%;
     margin: 0 auto;
     .logo {
+      cursor: pointer;
       float: left;
       margin: 0 15px;
       font-weight: bold;
