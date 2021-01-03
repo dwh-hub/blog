@@ -76,7 +76,7 @@ export default {
       z-index: 1;
       margin-left: 16px;
       margin-top: 24px;
-      height: 56px;
+      width: 56px;
       height: 56px;
       border-radius: 50%;
       border: 2px solid #fff;
