@@ -133,7 +133,7 @@ module.exports = app => {
   // 上传资源
   app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
     const file = req.file
-    file.url = `http://localhost:3000/uploads/${file.filename}`
+    file.url = `http://8.136.3.234/uploads/${file.filename}`
     res.send(success(file.url))
   })
 
