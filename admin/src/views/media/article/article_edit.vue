@@ -93,8 +93,11 @@ export default {
     async $imgAdd(pos, $file) {
       const formdata = new FormData();
       formdata.append("file", $file);
-      const res = await this.$api.common.uploadImg(formdata);
-      this.$refs.md.$img2Url(pos, res.data);
+      // const res = await this.$api.upload.uploadImg(formdata);
+      const res1 = await this.$api.upload.getQiniuToken();
+      formData.append("token", res1.data);
+      const res2 = await this.$api.upload.uploadQiniu(formData);
+      this.$refs.md.$img2Url(pos, res2.data);
     },
     async saveArticle() {
       let res;

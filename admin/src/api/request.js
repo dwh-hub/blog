@@ -25,13 +25,16 @@ Axios.interceptors.request.use(
 // 响应拦截器
 Axios.interceptors.response.use(
   (response) => {
+    // TODO 不能用code来判断状态码，应该用http的状态码来做判断
     // 处理响应成功的数据
-    if (response.data.code == 401) {
-      return router.push("/login");
-    }
-    if (response.data.code != 200) {
-      Vue.prototype.$message.error(response.data.message);
-      return Promise.reject();
+    if (response.data.code) {
+      if (response.data.code == 401) {
+        return router.push("/login");
+      }
+      if (response.data.code != 200) {
+        Vue.prototype.$message.error(response.data.message);
+        return Promise.reject();
+      }
     }
     // 过滤第一层http状态码数据
     return response.data;
@@ -44,8 +47,13 @@ Axios.interceptors.response.use(
 );
 
 export default {
-  GET(url, params) {
-    return Axios.get(url, { params })
+  request(options) {
+    const instance = Axios.create();
+    return instance(options);
+  },
+  GET(url, params, config) {
+    let axiosConfig = Object.assign({ params }, config);
+    return Axios.get(url, axiosConfig)
       .then((response) => {
         return Promise.resolve(response);
       })
@@ -53,8 +61,8 @@ export default {
         Promise.reject(error);
       });
   },
-  POST(url, params) {
-    return Axios.post(url, params)
+  POST(url, params, config) {
+    return Axios.post(url, params, config)
       .then((response) => {
         return response;
       })
@@ -62,8 +70,8 @@ export default {
         Promise.reject(error);
       });
   },
-  PUT(url, params) {
-    return Axios.put(url, params)
+  PUT(url, params, config) {
+    return Axios.put(url, params, config)
       .then((response) => {
         return response;
       })
@@ -71,8 +79,9 @@ export default {
         Promise.reject(error);
       });
   },
-  DELETE(url, params) {
-    return Axios.delete(url, { data: params })
+  DELETE(url, params, config) {
+    let axiosConfig = Object.assign({ data: params }, config);
+    return Axios.delete(url, axiosConfig)
       .then((response) => {
         return response;
       })

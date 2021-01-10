@@ -91,8 +91,11 @@ export default {
     async insertImg(blobInfo, success, failure) {
       let formData = new FormData();
       formData.append("file", blobInfo.blob(), blobInfo.filename());
-      const res = await this.$api.common.uploadImg(formData);
-      success(res.data);
+      // const res = await this.$api.upload.uploadImg(formData);
+      const res1 = await this.$api.upload.getQiniuToken();
+      formData.append("token", res1.data);
+      const res2 = await this.$api.upload.uploadQiniu(formData);
+      success(res2.data);
       // xhr.send(formData);
     }
   },

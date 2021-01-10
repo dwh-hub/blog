@@ -104,10 +104,12 @@ export default {
     },
     async uploadImg(e) {
       let file = e.target.files[0];
-      const formdata = new FormData();
-      formdata.append("file", file);
-      const res = await this.$api.common.uploadImg(formdata);
-      return res.data;
+      let formData = new FormData();
+      formData.append("file", file);
+      const res1 = await this.$api.upload.getQiniuToken();
+      formData.append("token", res1.data);
+      const res2 = await this.$api.upload.uploadQiniu(formData);
+      return res2.data
     },
     selectAvatar(e) {
       this.uploadImg(e).then((url) => {
