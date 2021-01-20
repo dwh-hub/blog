@@ -6,4 +6,8 @@ export default {
   getDailyDelivery() {
     return fetch('/bgm/calendar').then(res => res.json())
   },
+  // 获取动画详情
+  getAniDetail(id) {
+    return fetch(`/subject/${id}?responseGroup=large`).then(res => res.json())
+  },
 };
