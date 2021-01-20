@@ -4,6 +4,8 @@ import router from "./router/index.js";
 import store from "./store/store";
 import api from "./api"
 
+import 'swiper/swiper-bundle.css';
+
 Vue.config.productionTip = false;
 
 Vue.prototype.$api = api;
