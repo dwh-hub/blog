@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import navigation from "COMPS/business/navigation";
-import userCard from "COMPS/business/user_card";
-import userContact from "COMPS/business/user_contact";
-import tag from "COMPS/business/tag";
-import MSidebar from "COMPS/business/MSidebar";
+import navigation from "COMPS/base/navigation";
+import userCard from "COMPS/blog/user_card";
+import userContact from "COMPS/blog/user_contact";
+import tag from "COMPS/blog/tag";
+import MSidebar from "COMPS/blog/MSidebar";
 
 export default {
   name: "app",
@@ -39,7 +39,6 @@ export default {
 </script>
 
 <style lang="less">
-@import "~COMMON/less/reset.less";
 @import "~COMMON/less/font.less";
 @import "~COMMON/less/base.less";
 #home-index {

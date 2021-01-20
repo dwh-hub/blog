@@ -27,6 +27,10 @@ Axios.interceptors.response.use(
 );
 
 export default {
+  request(options) {
+    const instance = Axios.create();
+    return instance(options);
+  },
   GET(url, params) {
     return Axios.get(url, { params })
       .then((response) => {

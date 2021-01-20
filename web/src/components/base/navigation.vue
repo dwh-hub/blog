@@ -4,9 +4,12 @@
       <div class="logo" @click="homeback">大花园</div>
       <div class="nav-main">
         <ul>
-          <!-- <li class="nav-item" @click="homeback">
+          <li class="nav-item" @click="homeback">
             <span>首页</span>
-          </li> -->
+          </li>
+          <li class="nav-item" @click="toAnimation">
+            <span>动画</span>
+          </li>
         </ul>
       </div>
       <div class="search"></div>
@@ -29,7 +32,10 @@ import EventBus from "../../utils/eventBus";
 export default {
   methods: {
     homeback() {
-      this.$router.push({ path: `/` });
+      this.$router.push({ path: '/' });
+    },
+    toAnimation() {
+      this.$router.push({ path: '/animation' });
     },
     toggleMenu() {
       EventBus.$emit("toggleMenu");
@@ -60,6 +66,7 @@ export default {
     .nav-main {
       display: inline-block;
       .nav-item {
+        display: inline-block;
         cursor: pointer;
         padding: 0 10px;
         font-size: #222;

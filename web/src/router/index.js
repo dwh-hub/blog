@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import ArticleList from "COMPS/business/article_list";
+import ArticleList from "COMPS/blog/article_list";
 
 Vue.use(Router);
 
@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: (resolve) => import("PAGES/index.vue"),
+      component: (resolve) => import("PAGES/blog/index.vue"),
       children: [
         {
           path: "/",
@@ -26,10 +26,14 @@ export default new Router({
         },
         {
           path: "/article/:id",
-          component: (resolve) => import("PAGES/article_page.vue"),
+          component: (resolve) => import("PAGES/blog/article_page.vue"),
           props: true,
         },
       ],
     },
+    {
+      path: "/animation",
+      component: (resolve) => import("PAGES/animation/index.vue"),
+    }
   ],
 });

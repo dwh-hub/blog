@@ -17,7 +17,7 @@
 <script>
 import hljs from "highlight.js";
 import "highlight.js/styles/hybrid.css";
-import evaluate from 'COMPS/business/evaluate'
+import evaluate from 'COMPS/blog/evaluate'
 
 export default {
   name: "article-content",
