@@ -1,6 +1,5 @@
 <template>
   <div class="animation">
-    <navigation></navigation>
     <div class="animation-main">
       <div class="swiper-wrapper">
         <div class="swiper-container">
@@ -24,7 +23,6 @@
 </template>
 
 <script>
-import navigation from "COMPS/base/navigation";
 import calendar from "COMPS/animation/calendar";
 import Swiper, { Navigation, Pagination } from "swiper";
 Swiper.use([Navigation, Pagination]);
@@ -32,7 +30,6 @@ Swiper.use([Navigation, Pagination]);
 export default {
   name: "animation",
   components: {
-    navigation,
     calendar,
   },
   mounted() {

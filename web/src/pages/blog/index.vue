@@ -1,6 +1,5 @@
 <template>
   <div id="home-index">
-    <navigation></navigation>
     <m-sidebar></m-sidebar>
     <div id="main">
       <div id="sidebar-left">

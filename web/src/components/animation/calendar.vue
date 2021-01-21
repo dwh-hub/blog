@@ -11,11 +11,11 @@
       </div>
     </div>
     <div class="ani-list">
-      <div class="ani" v-for="(item, index) in todayList" :key="index">
+      <div class="ani" v-for="(item, index) in todayList" :key="index" @click="toDetail(item.id)">
         <div class="ani-cover">
           <img :src="item.images.common" />
         </div>
-        <div class="ani-name">{{item.name_cn}}</div>
+        <div class="ani-name">{{item.name_cn || item.name}}</div>
       </div>
     </div>
   </div>
@@ -39,7 +39,6 @@ export default {
         this.list = data;
         let curWeek = new Date().getDay();
         this.todayList = data[curWeek].items;
-        console.log(this.todayList);
         data.forEach((e) => {
           this.week.push(e.weekday);
         });
@@ -52,6 +51,10 @@ export default {
         }
       });
     },
+    toDetail(id) {
+      this.$router.push({ path: `/animation/detail/${id}`});
+      // this.$router.push(`/animation/detail/${id}`)
+    }
   },
 };
 </script>

@@ -10,22 +10,26 @@ Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch((err) => err);
 };
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: "/",
+      name: "blog",
       component: (resolve) => import("PAGES/blog/index.vue"),
       children: [
         {
           path: "/",
+          name: "article-list",
           component: ArticleList,
         },
         {
           path: "/tag/:id?",
+          name: "article-list-tag",
           component: ArticleList,
         },
         {
           path: "/article/:id",
+          name: "article-detai",
           component: (resolve) => import("PAGES/blog/article_page.vue"),
           props: true,
         },
@@ -33,7 +37,16 @@ export default new Router({
     },
     {
       path: "/animation",
-      component: (resolve) => import("PAGES/animation/index.vue"),
+      name: "animation",
+      component: (resolve) => import("PAGES/animation/index.vue")
+    },
+    {
+      path: "/animation/detail/:id?",
+      name: "animation-detail",
+      component: (resolve) => import("PAGES/animation/animation_detail.vue")
     }
   ],
 });
+
+
+export default router;
