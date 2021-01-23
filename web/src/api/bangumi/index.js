@@ -8,6 +8,6 @@ export default {
   },
   // 获取动画详情
   getAniDetail(id) {
-    return fetch(`/subject/${id}?responseGroup=large`).then(res => res.json())
+    return fetch(`/bgm//subject/${id}?responseGroup=large`).then(res => res.json())
   },
 };

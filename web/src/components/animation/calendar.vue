@@ -3,6 +3,7 @@
     <div class="week">
       <div
         class="week-item"
+        :class="{ today: item.isToday }"
         v-for="(item, index) in week"
         :key="index"
         @click="changeWeek(item)"
@@ -11,11 +12,16 @@
       </div>
     </div>
     <div class="ani-list">
-      <div class="ani" v-for="(item, index) in todayList" :key="index" @click="toDetail(item.id)">
+      <div
+        class="ani"
+        v-for="(item, index) in todayList"
+        :key="index"
+        @click="toDetail(item.id)"
+      >
         <div class="ani-cover">
           <img :src="item.images.common" />
         </div>
-        <div class="ani-name">{{item.name_cn || item.name}}</div>
+        <div class="ani-name">{{ item.name_cn || item.name }}</div>
       </div>
     </div>
   </div>
@@ -37,10 +43,15 @@ export default {
     getAni() {
       this.$api.bangumi.getDailyDelivery().then((data) => {
         this.list = data;
-        let curWeek = new Date().getDay();
+        let day = new Date().getDay();
+        let curWeek = day === 0 ? 6 : day - 1;
         this.todayList = data[curWeek].items;
-        data.forEach((e) => {
-          this.week.push(e.weekday);
+        data.forEach((e, index) => {
+          let _weekday = e.weekday;
+          if (curWeek === index) {
+            _weekday.isToday = true;
+          }
+          this.week.push(_weekday);
         });
       });
     },
@@ -52,14 +63,14 @@ export default {
       });
     },
     toDetail(id) {
-      this.$router.push({ path: `/animation/detail/${id}`});
+      this.$router.push({ path: `/animation/detail/${id}` });
       // this.$router.push(`/animation/detail/${id}`)
-    }
+    },
   },
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .calendar {
   .week {
     .week-item {
@@ -69,6 +80,10 @@ export default {
       width: 80px;
       line-height: 30px;
       text-align: center;
+    }
+    .today {
+      font-size: 15px;
+      font-weight: bold;
     }
   }
   .ani-list {

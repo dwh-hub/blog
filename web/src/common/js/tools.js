@@ -21,6 +21,6 @@ function formatDate(date, fmt) {
   return fmt;
 }
 
-export {
+export default{
   formatDate
 }
