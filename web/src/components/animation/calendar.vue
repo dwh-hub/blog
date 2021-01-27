@@ -1,6 +1,8 @@
 <template>
   <div class="calendar">
     <div class="week">
+      <div class="bgm-icon"></div>
+      <span class="calendar-title">每日放送</span>
       <div
         class="week-item"
         :class="{ today: item.isToday }"
@@ -72,10 +74,28 @@ export default {
 
 <style lang="less" scoped>
 .calendar {
+  background: #fff;
+  border-radius: 4px;
+  padding: 5px 10px 10px 10px;
   .week {
+    display: flex;
+    align-items: center;
+    .bgm-icon {
+      width: 36px;
+      height: 36px;
+      margin-right: 4px;
+      background-image: url("~ASSETS/images/bgm_icon.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .calendar-title {
+      font-size: 15px;
+      color: #555;
+      font-weight: bold;
+      margin-right: 10px;
+    }
     .week-item {
       cursor: pointer;
-      display: inline-block;
       margin: 10px 0;
       width: 80px;
       line-height: 30px;

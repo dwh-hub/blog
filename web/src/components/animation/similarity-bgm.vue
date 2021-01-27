@@ -1,5 +1,6 @@
 <template>
   <div class="recommend">
+    <div class="recommend-title">推荐番剧</div>
     <div
       class="bgm-item"
       v-for="item in list"
@@ -48,6 +49,9 @@ export default {
           return e;
         });
         this.list = list;
+      }).catch(e => {
+        console.log(e)
+        // TODO 新番剧可能没有，没有就从bangumi那那rank排名
       });
     },
     toDetail(id) {
@@ -60,10 +64,15 @@ export default {
 <style lang="less" scoped>
 @import "~COMMON/less/base.less";
 .recommend {
-  padding: 0 10px;
+  padding: 10px;
   background-color: #fff;
   border-radius: 4px;
   width: 350px;
+  .recommend-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+  }
   .bgm-item {
     display: flex;
     margin-top: 15px;
