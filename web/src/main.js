@@ -1,8 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router/index.js";
+import router from "./router/index";
 import store from "./store/store";
 import api from "./api"
+import "./components/global/index"
 
 import 'swiper/swiper-bundle.css';
 

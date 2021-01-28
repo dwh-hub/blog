@@ -8,7 +8,7 @@
         :class="{ today: item.isToday }"
         v-for="(item, index) in week"
         :key="index"
-        @click="changeWeek(item)"
+        @click="changeWeek(index)"
       >
         {{ item.cn }}
       </div>
@@ -25,6 +25,7 @@
         </div>
         <div class="ani-name">{{ item.name_cn || item.name }}</div>
       </div>
+      <loading :loading="loading"></loading>
     </div>
   </div>
 </template>
@@ -34,39 +35,87 @@ export default {
   data() {
     return {
       week: [],
+      curWeek: null, // 0 - 6
       todayList: [],
       list: [],
+      loading: true,
     };
   },
   mounted() {
+    this.getWeek();
     this.getAni();
   },
   methods: {
-    getAni() {
-      this.$api.bangumi.getDailyDelivery().then((data) => {
-        this.list = data;
-        let day = new Date().getDay();
-        let curWeek = day === 0 ? 6 : day - 1;
-        this.todayList = data[curWeek].items;
-        data.forEach((e, index) => {
-          let _weekday = e.weekday;
-          if (curWeek === index) {
-            _weekday.isToday = true;
-          }
-          this.week.push(_weekday);
-        });
-      });
-    },
-    changeWeek(item) {
-      this.list.forEach((e) => {
-        if (e.weekday.id === item.id) {
-          this.todayList = e.items;
+    getWeek() {
+      let week = [
+        {
+          en: "Mon",
+          cn: "星期一",
+          ja: "月耀日",
+          id: 1,
+        },
+        {
+          en: "Tue",
+          cn: "星期二",
+          ja: "火耀日",
+          id: 2,
+        },
+        {
+          en: "Wed",
+          cn: "星期三",
+          ja: "水耀日",
+          id: 3,
+        },
+        {
+          en: "Thu",
+          cn: "星期四",
+          ja: "木耀日",
+          id: 4,
+          isToday: true,
+        },
+        {
+          en: "Fri",
+          cn: "星期五",
+          ja: "金耀日",
+          id: 5,
+        },
+        {
+          en: "Sat",
+          cn: "星期六",
+          ja: "土耀日",
+          id: 6,
+        },
+        {
+          en: "Sun",
+          cn: "星期日",
+          ja: "日耀日",
+          id: 7,
+        },
+      ];
+      let day = new Date().getDay();
+      let curWeek = day === 0 ? 6 : day - 1;
+      this.curWeek = curWeek;
+      week.forEach((e, index) => {
+        if (curWeek == index) {
+          e.isToday = true;
         }
       });
+      this.week = week;
+    },
+    getAni() {
+      this.loading = true;
+      this.$api.bangumi.getDailyDelivery().then((data) => {
+        this.list = data;
+        this.todayList = data[this.curWeek].items;
+        this.loading = false;
+      });
+    },
+    changeWeek(index) {
+      this.curWeek = index;
+      this.todayList = this.list[index].items;
     },
     toDetail(id) {
       this.$router.push({ path: `/animation/detail/${id}` });
-      // this.$router.push(`/animation/detail/${id}`)
     },
   },
 };
@@ -107,9 +156,11 @@ export default {
     }
   }
   .ani-list {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 20px;
+    min-height: 220px;
     .ani {
       cursor: pointer;
       .ani-cover {
