@@ -7,6 +7,6 @@ export default {
       production: "http://8.136.3.234", // 生产环境
     },
     qiniuUploadUrl: "https://upload-z2.qiniup.com", // 七牛云上传地址
-    qiniuUrl: "http://qm5lx40xf.hn-bkt.clouddn.com/" // 七牛云预览地址
+    qiniuUrl: "http://cdn.dahuayuan.cn/" // 七牛云预览地址
   };
   
