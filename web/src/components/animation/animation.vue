@@ -1,5 +1,6 @@
 <template>
   <div class="animation">
+    <loading :loading="loading"></loading>
     <div class="animation-title">{{detail.name || ''}}</div>
     <div class="columns" v-if="detail.name">
       <div class="column-A">
@@ -107,6 +108,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       detail: {},
     };
   },
@@ -115,6 +117,7 @@ export default {
   },
   methods: {
     getBgmDetail() {
+      this.loading = true
       this.$api.bangumi.getBgmDetail(this.id).then((data) => {
         let week = ["一", "二", "三", "四", "五", "六", "七"];
         data.air_weekday_cn = "星期" + week[data.air_weekday];
@@ -139,8 +142,10 @@ export default {
             }
           });
         });
+        data.eps = data.eps.filter(e => e.type === 0)
         data.staffJob = staffJob;
         this.detail = data;
+        this.loading = false
       });
     },
   },
@@ -149,7 +154,9 @@ export default {
 
 <style lang="less" scoped>
 .animation {
+  position: relative;
   width: 1000px;
+  min-height: 300px;
   background-color: #fff;
   border-radius: 4px;
   padding: 0 20px 20px 20px;

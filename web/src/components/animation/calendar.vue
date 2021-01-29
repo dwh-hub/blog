@@ -5,7 +5,7 @@
       <span class="calendar-title">每日放送</span>
       <div
         class="week-item"
-        :class="{ today: item.isToday }"
+        :class="{ today: curWeek == index }"
         v-for="(item, index) in week"
         :key="index"
         @click="changeWeek(index)"
@@ -95,11 +95,6 @@ export default {
       let day = new Date().getDay();
       let curWeek = day === 0 ? 6 : day - 1;
       this.curWeek = curWeek;
-      week.forEach((e, index) => {
-        if (curWeek == index) {
-          e.isToday = true;
-        }
-      });
       this.week = week;
     },
     getAni() {
