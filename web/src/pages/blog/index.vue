@@ -13,6 +13,7 @@
       </div>
       <div id="sidebar-right">
         <tag></tag>
+        <music-player></music-player>
       </div>
     </div>
   </div>
@@ -24,6 +25,7 @@ import userCard from "COMPS/blog/user_card";
 import userContact from "COMPS/blog/user_contact";
 import tag from "COMPS/blog/tag";
 import MSidebar from "COMPS/blog/MSidebar";
+import musicPlayer from "COMPS/base/music_player"
 
 export default {
   name: "app",
@@ -32,7 +34,8 @@ export default {
     userCard,
     userContact,
     tag,
-    MSidebar
+    MSidebar,
+    musicPlayer
   },
 };
 </script>

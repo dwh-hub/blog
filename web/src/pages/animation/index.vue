@@ -1,6 +1,7 @@
 <template>
   <div class="animation">
     <div class="animation-main">
+      <div class="line-space"></div>
       <div class="swiper-wrapper">
         <div class="swiper-container">
           <div class="swiper-wrapper">
@@ -17,6 +18,7 @@
           <div class="swiper-pagination"></div>
         </div>
       </div>
+      <div class="line-space"></div>
       <calendar></calendar>
     </div>
   </div>
@@ -74,5 +76,8 @@ export default {
 }
 .swiper-container {
   height: 300px;
+}
+.line-space {
+  height: 20px;
 }
 </style>

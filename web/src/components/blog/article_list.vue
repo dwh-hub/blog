@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import articleItem from "COMPS/base/article_item";
+import articleItem from "COMPS/blog/article_item";
 import tools from "COMMON/js/tools"
 export default {
   name: "articleList",
