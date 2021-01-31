@@ -40,7 +40,11 @@
         <span class="music-singer"> - 星弟</span>
       </div>
       <div class="music-progress">
-        <div class="progress-bar" ref="progressBar">
+        <div
+          class="progress-bar"
+          @mousedown="progressMousedown"
+          ref="progressBar"
+        >
           <div
             class="played-progress-bar"
             :style="{ width: video.percent + '%' }"
@@ -52,7 +56,7 @@
           - {{ video.currentTime }}/{{ video.duration }}
         </div>
         <div class="horn">
-          <div class="volume">
+          <div class="volume" @mousedown="volumeMousedown" ref="volume">
             <div
               class="volume-bar"
               :style="{ height: video.volumePercent + '%' }"
@@ -132,6 +136,7 @@ export default {
       this.video.percent = (curTime / time) * 100;
       this.video.currentTime = this.computedTime(curTime);
     },
+    // 进度条拖拽
     watchProgress() {
       let that = this;
       let progress = this.$refs.progressControl;
@@ -139,6 +144,7 @@ export default {
       let PW = progressBar.offsetWidth; // 进度条总宽度
       let newPer = 0;
       progress.onmousedown = function (ed) {
+        ed.stopPropagation();
         that.video.isDown = true;
         let startX = ed.clientX;
         // 已播放宽度 这个要写在内部动态获取
@@ -152,11 +158,13 @@ export default {
           that.video.percent = newPer;
         };
         progress.onmousemove = function (em) {
+          em.stopPropagation();
           if (that.video.isDown) {
             changeProgerss(em);
           }
         };
         progress.onmouseup = function (es) {
+          es.stopPropagation();
           that.video.isDown = false;
           changeProgerss(es);
           progress.onmousemove = null;
@@ -173,10 +181,46 @@ export default {
       //   ev.preventDefault();
       // };
     },
-    // 改变音量
-    changeVolume() {
-      this.video.volumePercent = this.videoELe.volume * 100;
+    // 进度条点击
+    progressMousedown(e) {
+      let that = this;
+      let progressBar = this.$refs.progressBar;
+      let PW = progressBar.offsetWidth;
+      // 获取元素在页面的坐标 对标事件的clientX
+      let position = progressBar.getBoundingClientRect();
+      let startX = position.left;
+      let newX = e.clientX;
+      let diffX = newX - startX;
+      let newPer = (diffX / PW) * 100;
+      if (newPer > 100) newPer = 100;
+      if (newPer < 0) newPer = 0;
+      progressBar.onmouseup = function (es) {
+        let time = parseInt(that.videoELe.duration);
+        let curTime = parseInt((time * newPer) / 100);
+        that.video.percent = newPer;
+        that.videoELe.currentTime = curTime;
+        that.video.currentTime = that.computedTime(curTime);
+      };
     },
+    // 音量点击
+    volumeMousedown(e) {
+      let that = this;
+      let volume = this.$refs.volume;
+      let VH = volume.offsetHeight;
+      let position = volume.getBoundingClientRect();
+      let startY = position.top;
+      let newY = e.clientY;
+      let diffY = newY - startY;
+      let newPer = (diffY / VH) * 100;
+      if (newPer > 100) newPer = 100;
+      if (newPer < 0) newPer = 0;
+      newPer = 100 - newPer
+      volume.onmouseup = function (es) {
+        that.video.volumePercent = newPer;
+        that.videoELe.volume = newPer / 100;
+      };
+    },
+    // 转换显示时间格式
     computedTime(time) {
       let m = parseInt(time / 60);
       m = m < 10 ? "0" + String(m) : m;
@@ -184,6 +228,7 @@ export default {
       s = s < 10 ? "0" + String(s) : s;
       return `${m}:${s}`;
     },
+    // 暂停/播放
     switchPlayerState() {
       if (this.videoELe.paused) {
         this.video.isPlay = true;
@@ -193,6 +238,7 @@ export default {
         this.videoELe.pause();
       }
     },
+    // 静音/取消静音
     switchPlayerMult() {
       this.video.isMute = !this.video.isMute;
       if (this.video.isMute) {
@@ -200,7 +246,7 @@ export default {
       } else {
         this.videoELe.volume = 1;
       }
-      this.changeVolume();
+      this.video.volumePercent = this.videoELe.volume * 100;
     },
   },
 };
@@ -287,6 +333,7 @@ export default {
         padding-left: 5px;
         user-select: none;
         .progress-bar {
+          cursor: pointer;
           flex: 1;
           background-color: #cdcdcd;
           height: 2px;
