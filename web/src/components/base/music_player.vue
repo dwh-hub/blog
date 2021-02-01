@@ -2,11 +2,11 @@
   <div class="music-palyer blog-item" :class="size + '-palyer'">
     <video
       class="video"
-      src="http://cdn.dahuayuan.cn/bgm.m4a"
+      :src="bgm.url"
       @canplay="loadSuccess"
       @timeupdate="timeupdate"
     ></video>
-    <div class="music-cover">
+    <div class="music-cover" :style="{'background-image': 'url(' + bgm.cover + ')'}">
       <div class="palyer-play" :class="{ 'player-pause': video.isPlay }">
         <div class="palyer-play-button" @click="switchPlayerState">
           <svg
@@ -36,8 +36,8 @@
     </div>
     <div class="music-main">
       <div class="music-info">
-        <span class="music-name">大人</span>
-        <span class="music-singer"> - 星弟</span>
+        <span class="music-name">{{bgm.name}}</span>
+        <span class="music-singer"> - {{bgm.singer}}</span>
       </div>
       <div class="music-progress">
         <div
@@ -115,12 +115,14 @@ export default {
         isMute: false,
         volumePercent: 100,
       },
+      bgm: {},
       videoELe: null,
     };
   },
   mounted() {
     this.videoELe = document.querySelector(".video");
     this.watchProgress();
+    this.bgm = this.$store.state.userInfo.bgm
   },
   methods: {
     // 加载完成
@@ -268,6 +270,8 @@ export default {
       flex-shrink: 0;
       width: 66px;
       background: #eee;
+      background-size: cover;
+      background-repeat: no-repeat;
       .palyer-play {
         position: absolute;
         bottom: 50%;

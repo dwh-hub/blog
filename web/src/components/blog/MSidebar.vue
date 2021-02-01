@@ -31,7 +31,7 @@ export default {
     }
   },
   mounted() {
-    this.getInfo();
+    this.blogInfo = this.$store.state.userInfo
     EventBus.$on("toggleMenu", () => {
       this.showSidebar = !this.showSidebar;
     });
@@ -39,15 +39,6 @@ export default {
   methods: {
     clickMask() {
       this.showSidebar = false;
-    },
-    async getInfo() {
-      if (this.$store.state.userInfo) {
-        this.blogInfo = this.$store.state.userInfo;
-      } else {
-        let info = await this.$api.user.fetchBlogInfo();
-        this.blogInfo = info.data;
-        this.$store.commit("saveUserInfo", this.blogInfo);
-      }
     },
     toRouter(url) {
       this.$router.push(url)

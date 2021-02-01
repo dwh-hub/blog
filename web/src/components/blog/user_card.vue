@@ -34,19 +34,10 @@ export default {
     };
   },
   mounted() {
-    this.getInfo()
+    this.blogInfo = this.$store.state.userInfo
     this.getUserCount();
   },
   methods: {
-    async getInfo() {
-      if (this.$store.state.userInfo) {
-        this.blogInfo = this.$store.state.userInfo;
-      } else {
-        let info = await this.$api.user.fetchBlogInfo();
-        this.blogInfo = info.data;
-        this.$store.commit('saveUserInfo', this.blogInfo)
-      }
-    },
     async getUserCount() {
       let info = await this.$api.user.fetchBlogCount();
       this.userCount = info.data;

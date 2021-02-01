@@ -1,5 +1,5 @@
 <template>
-  <div id="home-index">
+  <div id="home-index" v-if="blogInfo">
     <m-sidebar></m-sidebar>
     <div id="main">
       <div id="sidebar-left">
@@ -8,7 +8,7 @@
       </div>
       <div id="main-content">
         <!-- <transition name="fade"> -->
-          <router-view :key="$route.path + $route.query.t"></router-view>
+        <router-view :key="$route.path + $route.query.t"></router-view>
         <!-- </transition> -->
       </div>
       <div id="sidebar-right">
@@ -25,7 +25,7 @@ import userCard from "COMPS/blog/user_card";
 import userContact from "COMPS/blog/user_contact";
 import tag from "COMPS/blog/tag";
 import MSidebar from "COMPS/blog/MSidebar";
-import musicPlayer from "COMPS/base/music_player"
+import musicPlayer from "COMPS/base/music_player";
 
 export default {
   name: "app",
@@ -35,7 +35,26 @@ export default {
     userContact,
     tag,
     MSidebar,
-    musicPlayer
+    musicPlayer,
+  },
+  data() {
+    return {
+      blogInfo: null
+    }
+  },
+  mounted() {
+    this.getInfo()
+  },
+  methods: {
+    async getInfo() {
+      if (this.$store.state.userInfo) {
+        this.blogInfo = this.$store.state.userInfo;
+      } else {
+        let info = await this.$api.user.fetchBlogInfo();
+        this.blogInfo = info.data;
+        this.$store.commit("saveUserInfo", this.blogInfo);
+      }
+    },
   },
 };
 </script>
