@@ -35,7 +35,7 @@
           <template slot="title">
             <i class="el-icon-message"></i>博客信息设置
           </template>
-          <el-menu-item index="/blog/info">编辑博客信息</el-menu-item>
+          <el-menu-item index="/blog/info">博客信息</el-menu-item>
           <!-- <el-menu-item-group>
             <span slot="title">博客信息</span>
           </el-menu-item-group> -->

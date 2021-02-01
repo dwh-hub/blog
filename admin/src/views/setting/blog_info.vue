@@ -1,7 +1,7 @@
 <template>
   <div class="blog-info">
     <h1>编辑博客信息</h1>
-    <el-form label-width="120px">
+    <el-form label-width="120px" v-loading="loading">
       <el-form-item label="昵称">
         <el-input type="text" v-model="blogInfo.name"></el-input>
       </el-form-item>
@@ -40,6 +40,47 @@
           </div>
         </div>
       </el-form-item>
+      <el-form-item label="背景音乐">
+        <div class="upload-btn-wrapper">
+          <el-button type="primary" size="small">点击上传</el-button>
+          <input
+            type="file"
+            class="upload-bgm-input"
+            accept="audio/*"
+            @change="selectBgm"
+          />
+        </div>
+      </el-form-item>
+      <el-form-item label="背景音乐封面">
+        <div class="assess-img-wrapper">
+          <div
+            class="assess-img"
+            @click="previewImage(blogInfo.bgm.cover)"
+            v-if="blogInfo.bgm.cover"
+          >
+            <img :src="blogInfo.bgm.cover" class="bgm-cover" />
+            <i class="delete-icon" @click.stop="blogInfo.bgm.cover = ''"></i>
+          </div>
+          <div class="uploader" v-else>
+            <input type="file" class="uploader-input" @change="selectCover" />
+            <img src="~ASSETS/images/picture.png" />
+          </div>
+        </div>
+      </el-form-item>
+      <el-form-item label="背景音乐-歌名"
+        ><el-input
+          v-model="blogInfo.bgm.name"
+          style="width: 200px"
+          placeholder="请输入内容"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="背景音乐-歌手">
+        <el-input
+          v-model="blogInfo.bgm.singer"
+          style="width: 200px"
+          placeholder="请输入内容"
+        ></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="save()">保存</el-button>
       </el-form-item>
@@ -60,7 +101,14 @@ export default {
         profile: "",
         avatar: "",
         bgUrl: "",
+        bgm: {
+          url: "",
+          name: "",
+          singer: "",
+          cover: "",
+        },
       },
+      loading: false,
       previewSrc: "",
       previewVisible: false,
     };
@@ -103,13 +151,15 @@ export default {
       console.log(file);
     },
     async uploadImg(e) {
+      this.loading = true;
       let file = e.target.files[0];
       let formData = new FormData();
       formData.append("file", file);
       const res1 = await this.$api.upload.getQiniuToken();
       formData.append("token", res1.data);
       const res2 = await this.$api.upload.uploadQiniu(formData);
-      return res2.data
+      this.loading = false;
+      return res2.data;
     },
     selectAvatar(e) {
       this.uploadImg(e).then((url) => {
@@ -120,6 +170,35 @@ export default {
       this.uploadImg(e).then((url) => {
         this.blogInfo.bgUrl = url;
       });
+    },
+    selectCover(e) {
+      this.uploadImg(e).then((url) => {
+        this.blogInfo.bgm.cover = url;
+      });
+    },
+    selectBgm(e) {
+      let that = this;
+      this.uploadImg(e).then((url) => {
+        this.blogInfo.bgm.url = url;
+        // ID3 https://github.com/aadsm/JavaScript-ID3-Reader
+        // http://web.ist.utl.pt/antonio.afonso/www.aadsm.net/libraries/id3/#demo
+        ID3.loadTags(url, function () {
+          let tags = ID3.getAllTags(url);
+          that.blogInfo.bgm.name = tags.title;
+          that.blogInfo.bgm.singer = tags.artist;
+          that.blogInfo.bgm.cover = that.getID3Picture(tags.picture);
+          console.log(that.blogInfo);
+        });
+      });
+    },
+    getID3Picture(picture) {
+      let base64String = "";
+      for (let i = 0; i < picture.data.length; i++) {
+        base64String += String.fromCharCode(picture.data[i]);
+      }
+      let dataUrl =
+        "data:" + picture.format + ";base64," + window.btoa(base64String);
+      return dataUrl;
     },
   },
 };
@@ -145,6 +224,11 @@ export default {
         width: 167px;
         height: 100px;
       }
+      &.bgm-cover {
+        width: 100px;
+        height: 100px;
+        border-radius: 4px;
+      }
     }
     .delete-icon {
       cursor: pointer;
@@ -160,6 +244,17 @@ export default {
       background-color: #fff;
       border-radius: 50%;
     }
+  }
+}
+.upload-btn-wrapper {
+  position: relative;
+  .upload-bgm-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
   }
 }
 .uploader {

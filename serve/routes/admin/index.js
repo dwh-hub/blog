@@ -112,6 +112,7 @@ module.exports = (app) => {
     assert(req.body.profile, 403, "缺失参数: profile");
     assert(req.body.avatar, 403, "缺失参数: avatar");
     assert(req.body.bgUrl, 403, "缺失参数: bgUrl");
+    assert(req.body.bgm, 403, "缺失参数: bgm");
     const info = await BlogInfo.find();
     if (!info.length) {
       await BlogInfo.create(req.body);

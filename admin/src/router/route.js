@@ -24,7 +24,7 @@ let route = [
         { path: '/user/list', component: resolve => import('VIEWS/user/user_list') },
         { path: '/user/add', component: resolve => import('VIEWS/user/user_edit') },
         { path: '/user/edit/:id', component: resolve => import('VIEWS/user/user_edit'), props: true },
-        { path: '/blog/info', component: resolve => import('VIEWS/setting/blog_info'), props: true },
+        { path: '/blog/info', component: resolve => import('VIEWS/setting/blog_info') },
         { path: '/evaluation/:id?', component: resolve => import('VIEWS/media/article/evaluation_list'), props: true }
       ]
     }
