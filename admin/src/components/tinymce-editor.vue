@@ -58,8 +58,8 @@ export default {
       init: {
         language_url: "/tinymce/langs/zh_CN.js",
         language: "zh_CN",
-        skin_url: "/tinymce/skins/ui/oxide",
-        content_css: `/tinymce/skins/content/default/content.css`,
+        skin_url: process.env.NODE_ENV === 'production' ? "/admin/tinymce/skins/ui/oxide" : "/tinymce/skins/ui/oxide",
+        content_css: process.env.NODE_ENV === 'production' ? "/admin/tinymce/skins/content/default/content.css" : "/tinymce/skins/content/default/content.css",
         height: 300,
         plugins: this.plugins,
         toolbar: this.toolbar,
