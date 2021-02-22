@@ -1,36 +1,49 @@
 <template>
   <div class="article blog-item">
     <div class="title">
-      <h2>{{article.title}}</h2>
+      <h2>{{ article.title }}</h2>
     </div>
     <div class="article-info">
       <span class="date">
         <i></i>
-        <span>{{article.addTime}}</span>
+        <span>{{ article.addTime }}</span>
       </span>
     </div>
-    <div class="article-content" v-html="article.HTMLContent"></div>
+    <mavon-editor
+      v-if="article.editorType == 1"
+      class="md"
+      :value="article.MDContent"
+      :subfield="false"
+      :defaultOpen="'preview'"
+      :toolbarsFlag="false"
+      :editable="false"
+      :scrollStyle="true"
+      :ishljs="true"
+    ></mavon-editor>
+    <div v-else class="article-content" v-html="article.HTMLContent"></div>
     <evaluate :articleId="id"></evaluate>
   </div>
 </template>
 
 <script>
-import hljs from "highlight.js";
-import "highlight.js/styles/hybrid.css";
-import evaluate from 'COMPS/blog/evaluate'
+import { mavonEditor } from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
+import evaluate from "COMPS/blog/evaluate";
+console.log(mavonEditor);
 
 export default {
   name: "article-content",
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
-      article: {}
+      article: {},
     };
   },
   components: {
-    evaluate
+    evaluate,
+    mavonEditor,
   },
   created() {
     this.getArticle();
@@ -38,12 +51,12 @@ export default {
   methods: {
     async getArticle() {
       const res = await this.$api.article.fetchArticle({
-        id: this.id
+        id: this.id,
       });
       res.data.addTime = res.data.addTime.slice(0, 10);
       this.article = res.data;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -78,6 +91,11 @@ export default {
       }
     }
   }
+  /deep/ .v-note-wrapper {
+    box-shadow: none !important;
+  }
+  /deep/ .v-show-content {
+    background-color: #fff !important;
+  }
 }
-
 </style>

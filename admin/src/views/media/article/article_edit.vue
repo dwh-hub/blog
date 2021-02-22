@@ -105,7 +105,8 @@ export default {
           title: this.title,
           tag: this.tags,
           MDContent: this.editorType == 1 ? this.content : '',
-          HTMLContent: this.editorType == 2 ? this.contentHtml : this.$refs.md.d_render,
+          // HTMLContent: this.editorType == 2 ? this.contentHtml : this.$refs.md.d_render,
+          HTMLContent: this.editorType == 2 ? this.contentHtml : '',
           editorType: this.editorType
         }
       if (this.id) {
